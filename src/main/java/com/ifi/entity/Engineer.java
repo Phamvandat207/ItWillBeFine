@@ -1,0 +1,24 @@
+package com.ifi.entity;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import java.math.BigDecimal;
+
+@Entity(name = "engineer")
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class Engineer extends Employee {
+    //Lương tháng
+    @Basic
+    @Column(name = "monthly_wage", precision = 10, scale = 9)
+    private BigDecimal hourlyRating;
+
+    //Phụ cấp
+    @Basic
+    @Column(name = "allowance", precision = 8, scale = 7)
+    private BigDecimal allowance;
+}
