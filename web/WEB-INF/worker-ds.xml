@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <datasources xmlns="http://www.jboss.org/ironjacamar/schema">
     <datasource jndi-name="java:/workerDB" pool-name="workerDB_Pool">
-        <connection-url>
-            jdbc:mysql://localhost:3306/ifi_test
-        </connection-url>
+        <connection-url>${DB_URL}</connection-url>
         <driver>
             mysql
         </driver>
         <security>
-            <user-name>root</user-name>
-            <password>123456</password>
+            <user-name>${DB_USER}</user-name>
+            <password>${DB_PASSWORD}</password>
         </security>
     </datasource>
     <drivers>

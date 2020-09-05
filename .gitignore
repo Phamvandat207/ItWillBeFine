@@ -24,7 +24,11 @@ hs_err_pid*
 
 #intelliJ
 .idea
+*.iml
 
 #build
 target
 out
+
+#enviroment file
+*.env
