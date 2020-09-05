@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datasources xmlns="http://www.jboss.org/ironjacamar/schema">
+    <datasource jndi-name="java:/workerDB" pool-name="workerDB_Pool">
+        <connection-url>${DB_URL}</connection-url>
+        <driver>
+            mysql
+        </driver>
+        <security>
+            <user-name>${DB_USER}</user-name>
+            <password>${DB_PASSWORD}</password>
+        </security>
+    </datasource>
+    <drivers>
+        <driver name="mysql">
+            <driver-class>com.mysql.cj.jdbc.Driver</driver-class>
+        </driver>
+    </drivers>
+</datasources>
