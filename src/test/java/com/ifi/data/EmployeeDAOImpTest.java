@@ -62,7 +62,7 @@ class EmployeeDAOImpTest {
     }
 
     @Test
-    @DisplayName("Test Framework Error")
+    @DisplayName("Test CDI")
     void showFrameworkStatus() {
         assertNotNull(employeeDAO);
         System.out.println("Test initiated! CDI successful!");
@@ -70,7 +70,7 @@ class EmployeeDAOImpTest {
 
     @Test
     @DisplayName("Test FindAll Method")
-    void test() {
+    void should_return_same_dataSize() {
         int expectedDataSize = testEmployeeList.size();
         List<Employee> employees = employeeDAO.findAllEmployee();
         assertEquals(expectedDataSize, employees.size());
