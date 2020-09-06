@@ -33,7 +33,7 @@ class EmployeeDAOImpTest {
     }
 
     @BeforeAll
-    static void init() {
+    static void mockData() {
         testEmployeeList = new LinkedList<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
         try {
