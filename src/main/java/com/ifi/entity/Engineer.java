@@ -1,7 +1,9 @@
 package com.ifi.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -10,6 +12,8 @@ import java.math.BigDecimal;
 
 @Entity(name = "engineer")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Engineer extends Employee {
     //Lương tháng
