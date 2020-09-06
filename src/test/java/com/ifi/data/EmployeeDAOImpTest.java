@@ -18,6 +18,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -125,4 +126,27 @@ class EmployeeDAOImpTest {
         });
     }
 
+    @Test
+    @DisplayName("Test Find Entity Base on Class")
+    void should_return_entity_by_Type() {
+        Employee expected = testEmployeeList.get(0);
+        Engineer engineer = employeeDAO.findEntityByID(expected.getId(), Engineer.class);
+        assertNotNull(engineer);
+        assertEquals(expected, engineer);
+    }
+
+    @Test
+    @DisplayName("Test Not Found Entity By Wrong class")
+    void should_return_null_by_wrong_Type() {
+        Employee expected = testEmployeeList.get(0);
+        Worker worker = employeeDAO.findEntityByID(expected.getId(), Worker.class);
+        assertNull(worker);
+    }
+
+    @Test
+    @DisplayName("Test not Found Entity")
+    void should_return_null() {
+        Employee employee = employeeDAO.findEntityByID(UUID.randomUUID());
+        assertNull(employee);
+    }
 }

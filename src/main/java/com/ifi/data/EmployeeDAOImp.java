@@ -42,4 +42,9 @@ public class EmployeeDAOImp implements EmployeeDAO {
     public Employee findEntityByID(UUID id) {
         return entityManager.find(Employee.class, id);
     }
+
+    @Override
+    public <T extends Employee> T findEntityByID(UUID id, Class<T> clazz)  {
+        return entityManager.find(clazz, id);
+    }
 }

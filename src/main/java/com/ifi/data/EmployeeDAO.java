@@ -11,4 +11,6 @@ public interface EmployeeDAO {
     List<Employee> findAllEntity();
 
     Employee findEntityByID(UUID id);
+
+    <T extends Employee> T findEntityByID(UUID id, Class<T> clazz);
 }
