@@ -47,18 +47,28 @@ class EmployeeDAOImpTest {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
         try {
             Stream<Employee> stream = Stream.of(
-                    new Engineer("Duc", Gender.MALE,
+                    new Engineer("Duc",
+                            Gender.MALE,
                             dateFormat.parse("17-09-1992"),
                             dateFormat.parse("11-08-2020"),
                             BigDecimal.valueOf(0.08),
                             BigDecimal.valueOf(0.003)),
-                    new Employee("Dat", Gender.OTHER, dateFormat.parse("15-07-1997"), dateFormat.parse("11-08-2020")),
-                    new Employee("Phuong", Gender.FEMALE, dateFormat.parse("20-04-1998"), dateFormat.parse("11-08-2020")),
+                    new Employee("Dat",
+                            Gender.OTHER,
+                            dateFormat.parse("15-07-1997"),
+                            dateFormat.parse("11-08-2020")),
+                    new Employee("Phuong",
+                            Gender.FEMALE,
+                            dateFormat.parse("20-04-1998"),
+                            dateFormat.parse("11-08-2020")),
                     new Worker("Duy", Gender.MALE,
                             dateFormat.parse("17-09-1998"),
                             dateFormat.parse("11-08-2020"),
                             BigDecimal.valueOf(0.003)),
-                    new Employee("Chinh", Gender.MALE, dateFormat.parse("7-12-1998"), dateFormat.parse("11-08-2020"))
+                    new Employee("Chinh",
+                            Gender.MALE,
+                            dateFormat.parse("7-12-1998"),
+                            dateFormat.parse("11-08-2020"))
             );
             testEmployeeList = stream.collect(Collectors.toList());
         } catch (ParseException e) {
