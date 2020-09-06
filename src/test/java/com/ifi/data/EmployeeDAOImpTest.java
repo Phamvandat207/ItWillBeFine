@@ -79,7 +79,7 @@ class EmployeeDAOImpTest {
     }
 
     @Test
-    @DisplayName("Test FindById Method")
+    @DisplayName("Test FindEmployeeById Method")
     void should_return_one_employee() {
         Employee expected = testEmployeeList.get(0);
         Employee employee = employeeDAO.findEntityByID(expected.getId());
