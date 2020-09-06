@@ -40,6 +40,6 @@ public class EmployeeDAOImp implements EmployeeDAO {
 
     @Override
     public Employee findEntityByID(UUID id) {
-        return null;
+        return entityManager.find(Employee.class, id);
     }
 }
