@@ -44,7 +44,25 @@ public class EmployeeDAOImp implements EmployeeDAO {
     }
 
     @Override
-    public <T extends Employee> T findEntityByID(UUID id, Class<T> clazz)  {
+    public <T extends Employee> T findEntityByID(UUID id, Class<T> clazz) {
         return entityManager.find(clazz, id);
+    }
+
+    @Override
+    public <T extends Employee> T addNewEntity(T employee) {
+        entityManager.getTransaction().begin();
+        entityManager.persist(employee);
+        entityManager.flush();
+        entityManager.getTransaction().commit();
+        return employee;
+    }
+
+    @Override
+    public long getCurrentSize() {
+        CriteriaBuilder queryBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> query = queryBuilder.createQuery(Long.class);
+        query.select(queryBuilder.count(query.from(Employee.class)));
+        TypedQuery<Long> typedQuery = entityManager.createQuery(query);
+        return typedQuery.getSingleResult();
     }
 }

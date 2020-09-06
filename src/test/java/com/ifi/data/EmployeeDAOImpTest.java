@@ -16,6 +16,8 @@ import javax.persistence.Persistence;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -158,5 +160,50 @@ class EmployeeDAOImpTest {
     void should_return_null() {
         Employee employee = employeeDAO.findEntityByID(UUID.randomUUID());
         assertNull(employee);
+    }
+
+    @Test
+    @DisplayName("Test add new Employee")
+    void should_add_new_employee() {
+        int expectedSize = testEmployeeList.size() + 1;
+        Employee employee = new Employee("dummy",
+                Gender.MALE,
+                Date.from(Instant.ofEpochMilli(0L)),
+                Date.from(Instant.now()));
+        Employee employeeSaved = employeeDAO.addNewEntity(employee);
+        assertNotNull(employeeSaved);
+        assertEquals(employee, employeeSaved);
+        assertEquals(expectedSize, employeeDAO.getCurrentSize());
+    }
+
+    @Test
+    @DisplayName("Test add new Engineer")
+    void should_add_new_engineer() {
+        int expectedSize = testEmployeeList.size() + 1;
+        Engineer engineer = new Engineer("dummy",
+                Gender.MALE,
+                Date.from(Instant.ofEpochMilli(0L)),
+                Date.from(Instant.now()),
+                BigDecimal.valueOf(0.01),
+                BigDecimal.valueOf(0.001));
+        Engineer employeeSaved = employeeDAO.addNewEntity(engineer);
+        assertNotNull(employeeSaved);
+        assertEquals(engineer, employeeSaved);
+        assertEquals(expectedSize, employeeDAO.getCurrentSize());
+    }
+
+    @Test
+    @DisplayName("Test add new Worker")
+    void should_add_new_worker() {
+        int expectedSize = testEmployeeList.size() + 1;
+        Worker worker = new Worker("dummy",
+                Gender.MALE,
+                Date.from(Instant.ofEpochMilli(0L)),
+                Date.from(Instant.now()),
+                BigDecimal.valueOf(0.001));
+        Worker employeeSaved = employeeDAO.addNewEntity(worker);
+        assertNotNull(employeeSaved);
+        assertEquals(worker, employeeSaved);
+        assertEquals(expectedSize, employeeDAO.getCurrentSize());
     }
 }

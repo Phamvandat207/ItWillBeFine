@@ -13,4 +13,8 @@ public interface EmployeeDAO {
     Employee findEntityByID(UUID id);
 
     <T extends Employee> T findEntityByID(UUID id, Class<T> clazz);
+
+    <T extends Employee> T addNewEntity(T employee);
+
+    long getCurrentSize();
 }
