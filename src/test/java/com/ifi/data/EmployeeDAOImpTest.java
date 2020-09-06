@@ -16,6 +16,8 @@ import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -34,14 +36,16 @@ class EmployeeDAOImpTest {
 
     @BeforeAll
     static void mockData() {
-        testEmployeeList = new LinkedList<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
         try {
-            testEmployeeList.add(new Employee("Duc", Gender.MALE, dateFormat.parse("17-09-1992"), dateFormat.parse("11-08-2020")));
-            testEmployeeList.add(new Employee("Dat", Gender.OTHER, dateFormat.parse("15-07-1997"), dateFormat.parse("11-08-2020")));
-            testEmployeeList.add(new Employee("Phuong", Gender.FEMALE, dateFormat.parse("20-04-1998"), dateFormat.parse("11-08-2020")));
-            testEmployeeList.add(new Employee("Duy", Gender.MALE, dateFormat.parse("17-09-1998"), dateFormat.parse("11-08-2020")));
-            testEmployeeList.add(new Employee("Chinh", Gender.MALE, dateFormat.parse("7-12-1998"), dateFormat.parse("11-08-2020")));
+            Stream<Employee> stream = Stream.of(
+                    new Employee("Duc", Gender.MALE, dateFormat.parse("17-09-1992"), dateFormat.parse("11-08-2020")),
+                    new Employee("Dat", Gender.OTHER, dateFormat.parse("15-07-1997"), dateFormat.parse("11-08-2020")),
+                    new Employee("Phuong", Gender.FEMALE, dateFormat.parse("20-04-1998"), dateFormat.parse("11-08-2020")),
+                    new Employee("Duy", Gender.MALE, dateFormat.parse("17-09-1998"), dateFormat.parse("11-08-2020")),
+                    new Employee("Chinh", Gender.MALE, dateFormat.parse("7-12-1998"), dateFormat.parse("11-08-2020"))
+            );
+            testEmployeeList = stream.collect(Collectors.toList());
         } catch (ParseException e) {
             e.printStackTrace();
         }
