@@ -6,5 +6,4 @@ import javax.persistence.EntityManager;
 public class EmployeeDAOImp implements EmployeeDAO {
     @Inject
     EntityManager entityManager;
-
 }
