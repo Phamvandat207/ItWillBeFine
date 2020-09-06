@@ -121,6 +121,7 @@ class EmployeeDAOImpTest {
         Engineer expected = (Engineer) testEmployeeList.get(0);
         assertThrows(ClassCastException.class, () -> {
             Worker worker = (Worker) employeeDAO.findEntityByID(expected.getId());
+            assertNull(worker);
         });
     }
 
