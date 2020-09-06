@@ -14,6 +14,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 
 @Transactional
 @ApplicationScoped
@@ -28,12 +29,17 @@ public class EmployeeDAOImp implements EmployeeDAO {
     }
 
     @Override
-    public List<Employee> findAllEmployee() {
+    public List<Employee> findAllEntity() {
         CriteriaBuilder queryBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Employee> query = queryBuilder.createQuery(Employee.class);
         Root<Employee> employeeRoot = query.from(Employee.class);
         query.orderBy(queryBuilder.desc(employeeRoot.get(Employee_.joinedDate)));
         TypedQuery<Employee> typedQuery = entityManager.createQuery(query);
         return typedQuery.getResultList();
+    }
+
+    @Override
+    public Employee findEntityByID(UUID id) {
+        return null;
     }
 }

@@ -13,14 +13,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @EnableAutoWeld
 @AddBeanClasses(EmployeeDAOImp.class)
@@ -33,6 +31,12 @@ class EmployeeDAOImpTest {
     EntityManager produceEntityManager() {
         return Persistence.createEntityManagerFactory("test").createEntityManager();
     }
+
+    @Inject
+    EmployeeDAO employeeDAO;
+
+    @Inject
+    EntityManager entityManager;
 
     @BeforeAll
     static void mockData() {
@@ -50,12 +54,6 @@ class EmployeeDAOImpTest {
             e.printStackTrace();
         }
     }
-
-    @Inject
-    EmployeeDAO employeeDAO;
-
-    @Inject
-    EntityManager entityManager;
 
     @BeforeEach
     void refreshDB() {
@@ -76,8 +74,17 @@ class EmployeeDAOImpTest {
     @DisplayName("Test FindAll Method")
     void should_return_same_dataSize() {
         int expectedDataSize = testEmployeeList.size();
-        List<Employee> employees = employeeDAO.findAllEmployee();
+        List<Employee> employees = employeeDAO.findAllEntity();
         assertEquals(expectedDataSize, employees.size());
+    }
+
+    @Test
+    @DisplayName("Test FindById Method")
+    void should_return_one_employee() {
+        Employee expected = testEmployeeList.get(0);
+        Employee employee = employeeDAO.findEntityByID(expected.getId());
+        assertNotNull(employee);
+        assertEquals(expected, employee);
     }
 
 }
