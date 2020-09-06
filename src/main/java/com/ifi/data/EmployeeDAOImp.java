@@ -2,6 +2,7 @@ package com.ifi.data;
 
 import com.ifi.entity.Employee;
 import com.ifi.entity.Employee_;
+import com.ifi.util.exception.IdNotNullException;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import javax.annotation.PostConstruct;
@@ -49,7 +50,10 @@ public class EmployeeDAOImp implements EmployeeDAO {
     }
 
     @Override
-    public <T extends Employee> T addNewEntity(T employee) {
+    public <T extends Employee> T addNewEntity(T employee) throws IdNotNullException {
+        if (employee.getId() != null) {
+            throw new IdNotNullException();
+        }
         entityManager.getTransaction().begin();
         entityManager.persist(employee);
         entityManager.flush();

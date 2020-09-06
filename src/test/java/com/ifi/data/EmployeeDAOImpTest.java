@@ -4,6 +4,7 @@ import com.ifi.entity.Employee;
 import com.ifi.entity.Engineer;
 import com.ifi.entity.Worker;
 import com.ifi.util.constants.Gender;
+import com.ifi.util.exception.IdNotNullException;
 import org.jboss.weld.junit5.auto.AddBeanClasses;
 import org.jboss.weld.junit5.auto.EnableAutoWeld;
 import org.junit.jupiter.api.*;
@@ -164,8 +165,8 @@ class EmployeeDAOImpTest {
 
     @Test
     @DisplayName("Test add new Employee")
-    void should_add_new_employee() {
-        int expectedSize = testEmployeeList.size() + 1;
+    void should_add_new_employee() throws IdNotNullException {
+        int expectedSize = testEmployeeList.size();
         Employee employee = new Employee("dummy",
                 Gender.MALE,
                 Date.from(Instant.ofEpochMilli(0L)),
@@ -173,13 +174,13 @@ class EmployeeDAOImpTest {
         Employee employeeSaved = employeeDAO.addNewEntity(employee);
         assertNotNull(employeeSaved);
         assertEquals(employee, employeeSaved);
-        assertEquals(expectedSize, employeeDAO.getCurrentSize());
+        assertNotEquals(expectedSize, employeeDAO.getCurrentSize());
     }
 
     @Test
     @DisplayName("Test add new Engineer")
-    void should_add_new_engineer() {
-        int expectedSize = testEmployeeList.size() + 1;
+    void should_add_new_engineer() throws IdNotNullException {
+        int expectedSize = testEmployeeList.size();
         Engineer engineer = new Engineer("dummy",
                 Gender.MALE,
                 Date.from(Instant.ofEpochMilli(0L)),
@@ -189,13 +190,13 @@ class EmployeeDAOImpTest {
         Engineer employeeSaved = employeeDAO.addNewEntity(engineer);
         assertNotNull(employeeSaved);
         assertEquals(engineer, employeeSaved);
-        assertEquals(expectedSize, employeeDAO.getCurrentSize());
+        assertNotEquals(expectedSize, employeeDAO.getCurrentSize());
     }
 
     @Test
     @DisplayName("Test add new Worker")
-    void should_add_new_worker() {
-        int expectedSize = testEmployeeList.size() + 1;
+    void should_add_new_worker() throws IdNotNullException {
+        int expectedSize = testEmployeeList.size();
         Worker worker = new Worker("dummy",
                 Gender.MALE,
                 Date.from(Instant.ofEpochMilli(0L)),
@@ -204,6 +205,19 @@ class EmployeeDAOImpTest {
         Worker employeeSaved = employeeDAO.addNewEntity(worker);
         assertNotNull(employeeSaved);
         assertEquals(worker, employeeSaved);
-        assertEquals(expectedSize, employeeDAO.getCurrentSize());
+        assertNotEquals(expectedSize, employeeDAO.getCurrentSize());
+    }
+
+    @Test
+    @DisplayName("Test add Employee with Not null Id")
+    void should_not_add_employee() {
+        Employee employee = new Employee("dummy",
+                Gender.MALE,
+                Date.from(Instant.ofEpochMilli(0L)),
+                Date.from(Instant.now()));
+        employee.setId(UUID.randomUUID());
+        assertThrows(IdNotNullException.class, () -> {
+            Employee employeeSaved = employeeDAO.addNewEntity(employee);
+        });
     }
 }
