@@ -1,7 +1,7 @@
 package com.ifi.entity;
 
 import com.ifi.util.constants.Gender;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -11,6 +11,8 @@ import java.util.UUID;
 @Entity(name = "employee")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Data
+@RequiredArgsConstructor
+@NoArgsConstructor
 public class Employee {
     @Id
     @GeneratedValue(generator = "hibernate-uuid")
@@ -20,19 +22,23 @@ public class Employee {
 
     @Basic
     @Column(name = "name")
+    @NonNull
     private String name;
 
     @Basic
     @Column(name = "gender")
+    @NonNull
     private Gender gender;
 
     @Basic
     @Column(name = "dob")
     @Temporal(TemporalType.DATE)
+    @NonNull
     private Date dateOfBirth;
 
     @Basic
     @Column(name = "joined_date")
     @Temporal(TemporalType.DATE)
+    @NonNull
     private Date joinedDate;
 }
