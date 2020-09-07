@@ -1,10 +1,7 @@
 package com.ifi.entity;
 
 import com.ifi.util.constants.Gender;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -16,6 +13,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@ToString(callSuper = true)
 public class Worker extends Employee {
     //Lương 1 công
     @Basic
