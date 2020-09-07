@@ -82,9 +82,14 @@ class EmployeeDAOImpTest {
 
     @BeforeEach
     void refreshDB() {
-        entityManager.getTransaction().begin();
-        testEmployeeList.forEach(employee -> entityManager.persist(employee));
-        entityManager.getTransaction().commit();
+        System.out.println(employeeDAO.findAllEntity());
+        testEmployeeList.forEach(employee -> {
+            try {
+                employeeDAO.addNewEntity(employee);
+            } catch (EmployeeSaveException e) {
+                e.printStackTrace();
+            }
+        });
         System.out.println("Database Refreshed!");
     }
 
@@ -152,7 +157,7 @@ class EmployeeDAOImpTest {
     @Test
     @DisplayName("Test Not Found Entity By Wrong class")
     void should_return_null_by_wrong_Type() {
-        Employee expected = testEmployeeList.get(0);
+        Employee expected = testEmployeeList.get(1);
         Worker worker = employeeDAO.findEntityByID(expected.getId(), Worker.class);
         assertNull(worker);
     }
