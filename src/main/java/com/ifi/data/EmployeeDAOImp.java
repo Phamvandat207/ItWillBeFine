@@ -2,7 +2,8 @@ package com.ifi.data;
 
 import com.ifi.entity.Employee;
 import com.ifi.entity.Employee_;
-import com.ifi.util.exception.IdNotNullException;
+import com.ifi.util.exception.EmployeeDataException;
+import com.ifi.util.exception.EmployeeSaveException;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import javax.annotation.PostConstruct;
@@ -50,9 +51,9 @@ public class EmployeeDAOImp implements EmployeeDAO {
     }
 
     @Override
-    public <T extends Employee> T addNewEntity(T employee) throws IdNotNullException {
+    public <T extends Employee> T addNewEntity(T employee) throws EmployeeSaveException {
         if (employee.getId() != null) {
-            throw new IdNotNullException();
+            throw new EmployeeSaveException();
         }
         entityManager.getTransaction().begin();
         entityManager.persist(employee);
@@ -68,5 +69,15 @@ public class EmployeeDAOImp implements EmployeeDAO {
         query.select(queryBuilder.count(query.from(Employee.class)));
         TypedQuery<Long> typedQuery = entityManager.createQuery(query);
         return typedQuery.getSingleResult();
+    }
+
+    @Override
+    public <T extends Employee> T updateEntity(T employee) throws EmployeeSaveException, EmployeeDataException {
+        if (employee.getId() == null) {
+            throw new EmployeeDataException();
+        } else if (entityManager.find(employee.getClass(), employee.getId()) == null) {
+            throw new EmployeeSaveException();
+        }
+        return entityManager.merge(employee);
     }
 }

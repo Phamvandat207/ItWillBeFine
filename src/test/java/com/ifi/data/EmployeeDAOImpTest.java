@@ -4,7 +4,8 @@ import com.ifi.entity.Employee;
 import com.ifi.entity.Engineer;
 import com.ifi.entity.Worker;
 import com.ifi.util.constants.Gender;
-import com.ifi.util.exception.IdNotNullException;
+import com.ifi.util.exception.EmployeeDataException;
+import com.ifi.util.exception.EmployeeSaveException;
 import org.jboss.weld.junit5.auto.AddBeanClasses;
 import org.jboss.weld.junit5.auto.EnableAutoWeld;
 import org.junit.jupiter.api.*;
@@ -165,7 +166,7 @@ class EmployeeDAOImpTest {
 
     @Test
     @DisplayName("Test add new Employee")
-    void should_add_new_employee() throws IdNotNullException {
+    void should_add_new_employee() throws EmployeeSaveException {
         int expectedSize = testEmployeeList.size();
         Employee employee = new Employee("dummy",
                 Gender.MALE,
@@ -179,7 +180,7 @@ class EmployeeDAOImpTest {
 
     @Test
     @DisplayName("Test add new Engineer")
-    void should_add_new_engineer() throws IdNotNullException {
+    void should_add_new_engineer() throws EmployeeSaveException {
         int expectedSize = testEmployeeList.size();
         Engineer engineer = new Engineer("dummy",
                 Gender.MALE,
@@ -195,7 +196,7 @@ class EmployeeDAOImpTest {
 
     @Test
     @DisplayName("Test add new Worker")
-    void should_add_new_worker() throws IdNotNullException {
+    void should_add_new_worker() throws EmployeeSaveException {
         int expectedSize = testEmployeeList.size();
         Worker worker = new Worker("dummy",
                 Gender.MALE,
@@ -216,8 +217,51 @@ class EmployeeDAOImpTest {
                 Date.from(Instant.ofEpochMilli(0L)),
                 Date.from(Instant.now()));
         employee.setId(UUID.randomUUID());
-        assertThrows(IdNotNullException.class, () -> {
+        assertThrows(EmployeeSaveException.class, () -> {
             Employee employeeSaved = employeeDAO.addNewEntity(employee);
+        });
+    }
+
+    @Test
+    @DisplayName("Test update Employee")
+    void should_update_employee() throws EmployeeSaveException, EmployeeDataException {
+        String expectedName = "Nam";
+        Employee toUpdate = testEmployeeList.get(0);
+        toUpdate.setName(expectedName);
+        Employee updated = employeeDAO.updateEntity(toUpdate);
+        assertNotNull(updated);
+        assertEquals(expectedName, updated.getName());
+    }
+
+    @Test
+    @DisplayName("Test update Engineer")
+    void should_update_engineer() throws EmployeeSaveException, EmployeeDataException {
+        Gender expectedGender = Gender.FEMALE;
+        Engineer toUpdate = (Engineer) testEmployeeList.get(0);
+        toUpdate.setGender(expectedGender);
+        Engineer updated = employeeDAO.updateEntity(toUpdate);
+        assertNotNull(updated);
+        assertEquals(expectedGender, updated.getGender());
+    }
+
+    @Test
+    @DisplayName("Test update Worker")
+    void should_update_worker() throws EmployeeSaveException, EmployeeDataException {
+        String expectedName = "Nam";
+        Worker toUpdate = (Worker) testEmployeeList.get(3);
+        toUpdate.setName(expectedName);
+        Worker updated = employeeDAO.updateEntity(toUpdate);
+        assertNotNull(updated);
+        assertEquals(expectedName, updated.getName());
+    }
+
+    @Test
+    @DisplayName("Test update Employee with null id")
+    void should_not_update_employee() {
+        Employee employee = testEmployeeList.get(0);
+        employee.setId(null);
+        assertThrows(EmployeeDataException.class, () -> {
+            Employee updated = employeeDAO.updateEntity(employee);
         });
     }
 }
