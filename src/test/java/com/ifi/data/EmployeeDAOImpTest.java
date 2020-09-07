@@ -262,10 +262,20 @@ class EmployeeDAOImpTest {
 
     @Test
     @DisplayName("Test update Employee with null id")
-    void should_not_update_employee() {
+    void should_not_update_employee_null_id() {
         Employee employee = testEmployeeList.get(0);
         employee.setId(null);
         assertThrows(EmployeeDataException.class, () -> {
+            Employee updated = employeeDAO.updateEntity(employee);
+        });
+    }
+
+    @Test
+    @DisplayName("Test update Employee with non exist id")
+    void should_not_update_employee_non_exist_id() {
+        Employee employee = new Employee();
+        employee.setId(UUID.randomUUID());
+        assertThrows(EmployeeSaveException.class, () -> {
             Employee updated = employeeDAO.updateEntity(employee);
         });
     }
