@@ -23,4 +23,6 @@ public interface EmployeeDAO {
     <T extends Employee> T updateEntity(T employee) throws EmployeeSaveException, EmployeeDataException;
 
     <T extends Employee> T deleteEntity(T employee);
+
+    <T extends Employee> T deleteEntity(UUID id);
 }

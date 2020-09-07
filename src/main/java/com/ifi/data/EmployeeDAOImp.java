@@ -5,6 +5,7 @@ import com.ifi.entity.Employee_;
 import com.ifi.util.exception.EmployeeDataException;
 import com.ifi.util.exception.EmployeeSaveException;
 import jakarta.enterprise.context.ApplicationScoped;
+import org.reflections.Reflections;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -17,6 +18,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Transactional
@@ -108,5 +110,26 @@ public class EmployeeDAOImp implements EmployeeDAO {
         entityManager.remove(employeeFound);
         entityManager.getTransaction().commit();
         return employee;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T extends Employee> T deleteEntity(UUID id) {
+        T result = null;
+        Employee employeeFound = entityManager.find(Employee.class, id);
+        if (employeeFound == null) {
+            throw new EntityNotFoundException();
+        }
+        entityManager.getTransaction().begin();
+        entityManager.remove(employeeFound);
+        entityManager.getTransaction().commit();
+        Reflections reflections = new Reflections(employeeFound.getClass().getPackage().getName());
+        Set<Class<? extends Employee>> classSet = reflections.getSubTypesOf(Employee.class);
+        for (Class<? extends Employee> clazz : classSet) {
+            if (employeeFound.getClass().isAssignableFrom(clazz)) {
+                result = (T) employeeFound;
+            }
+        }
+        return result;
     }
 }

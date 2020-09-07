@@ -325,7 +325,24 @@ class EmployeeDAOImpTest {
         assertThrows(EntityNotFoundException.class, () -> {
             Employee employee = new Employee();
             employee.setId(UUID.randomUUID());
-           employeeDAO.deleteEntity(employee);
+            employeeDAO.deleteEntity(employee);
+        });
+    }
+
+    @Test
+    @DisplayName("Test Delete Exist Id")
+    void should_delete_exist_id() {
+        Employee employee = testEmployeeList.get(2);
+        Employee employeeDeleted = employeeDAO.deleteEntity(employee.getId());
+        assertNotNull(employeeDeleted);
+        assertEquals(employee, employeeDeleted);
+    }
+
+    @Test
+    @DisplayName("Test Delete Exist Id")
+    void should_delete_non_exist_id() {
+        assertThrows(EntityNotFoundException.class, () -> {
+            Employee employeeDeleted = employeeDAO.deleteEntity(UUID.randomUUID());
         });
     }
 }
