@@ -6,6 +6,7 @@ import com.ifi.entity.Worker;
 import com.ifi.util.constants.Gender;
 import com.ifi.util.exception.EmployeeDataException;
 import com.ifi.util.exception.EmployeeSaveException;
+import javassist.NotFoundException;
 import org.jboss.weld.junit5.auto.AddBeanClasses;
 import org.jboss.weld.junit5.auto.EnableAutoWeld;
 import org.junit.jupiter.api.*;
@@ -14,6 +15,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -82,7 +84,6 @@ class EmployeeDAOImpTest {
 
     @BeforeEach
     void refreshDB() {
-        System.out.println(employeeDAO.findAllEntity());
         testEmployeeList.forEach(employee -> {
             try {
                 employeeDAO.addNewEntity(employee);
@@ -277,6 +278,54 @@ class EmployeeDAOImpTest {
         employee.setId(UUID.randomUUID());
         assertThrows(EmployeeSaveException.class, () -> {
             Employee updated = employeeDAO.updateEntity(employee);
+        });
+    }
+
+    @Test
+    @DisplayName("Test Delete Employee")
+    void should_delete_employee() {
+        Employee employee = testEmployeeList.get(4);
+        Employee employeeDeleted = employeeDAO.deleteEntity(employee);
+        assertNotNull(employeeDeleted);
+        assertEquals(employee, employeeDeleted);
+    }
+
+    @Test
+    @DisplayName("Test Delete Engineer")
+    void should_delete_engineer() throws EmployeeSaveException {
+        Engineer engineer = new Engineer("dummy",
+                Gender.MALE,
+                Date.from(Instant.ofEpochMilli(0L)),
+                Date.from(Instant.now()),
+                BigDecimal.valueOf(0.01),
+                BigDecimal.valueOf(0.001));
+        employeeDAO.addNewEntity(engineer);
+        Engineer employeeDeleted = employeeDAO.deleteEntity(engineer);
+        assertNotNull(employeeDeleted);
+        assertEquals(engineer, employeeDeleted);
+    }
+
+    @Test
+    @DisplayName("Test Delete Worker")
+    void should_delete_worker() throws EmployeeSaveException {
+        Worker worker = new Worker("dummy",
+                Gender.MALE,
+                Date.from(Instant.ofEpochMilli(0L)),
+                Date.from(Instant.now()),
+                BigDecimal.valueOf(0.001));
+        employeeDAO.addNewEntity(worker);
+        Worker employeeDeleted = employeeDAO.deleteEntity(worker);
+        assertNotNull(employeeDeleted);
+        assertEquals(worker, employeeDeleted);
+    }
+
+    @Test
+    @DisplayName("Test Delete Non Exist Employee")
+    void should_throw_not_found() {
+        assertThrows(EntityNotFoundException.class, () -> {
+            Employee employee = new Employee();
+            employee.setId(UUID.randomUUID());
+           employeeDAO.deleteEntity(employee);
         });
     }
 }

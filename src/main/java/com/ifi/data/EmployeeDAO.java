@@ -21,4 +21,6 @@ public interface EmployeeDAO {
     long getCurrentSize();
 
     <T extends Employee> T updateEntity(T employee) throws EmployeeSaveException, EmployeeDataException;
+
+    <T extends Employee> T deleteEntity(T employee);
 }

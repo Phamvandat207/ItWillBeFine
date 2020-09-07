@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -94,5 +95,18 @@ public class EmployeeDAOImp implements EmployeeDAO {
         T result = entityManager.merge(employee);
         entityManager.getTransaction().commit();
         return result;
+    }
+
+    @Override
+    public <T extends Employee> T deleteEntity(T employee) {
+        Class<? extends Employee> clazz = employee.getClass();
+        Employee employeeFound = entityManager.find(clazz, employee.getId());
+        if (employeeFound == null) {
+            throw new EntityNotFoundException();
+        }
+        entityManager.getTransaction().begin();
+        entityManager.remove(employeeFound);
+        entityManager.getTransaction().commit();
+        return employee;
     }
 }
