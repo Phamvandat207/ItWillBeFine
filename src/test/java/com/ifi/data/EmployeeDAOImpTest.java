@@ -339,7 +339,7 @@ class EmployeeDAOImpTest {
     }
 
     @Test
-    @DisplayName("Test Delete Exist Id")
+    @DisplayName("Test Delete Non Exist Id")
     void should_delete_non_exist_id() {
         assertThrows(EntityNotFoundException.class, () -> {
             Employee employeeDeleted = employeeDAO.deleteEntity(UUID.randomUUID());
