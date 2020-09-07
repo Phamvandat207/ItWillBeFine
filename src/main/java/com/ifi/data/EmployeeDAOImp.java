@@ -44,12 +44,14 @@ public class EmployeeDAOImp implements EmployeeDAO {
     }
 
     @Override
-    public Employee findEntityByID(UUID id) {
-        Employee employee = entityManager.find(Employee.class, id);
-        if (employee != null) {
-            entityManager.detach(employee);
+    public <T extends Employee> T findEntityByID(UUID id) {
+        Employee employeeFound = entityManager.find(Employee.class, id);
+        T result = null;
+        if (employeeFound != null) {
+            entityManager.detach(employeeFound);
+            result = getSubType(employeeFound);
         }
-        return employee;
+        return result;
     }
 
     @Override
@@ -113,9 +115,7 @@ public class EmployeeDAOImp implements EmployeeDAO {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T extends Employee> T deleteEntity(UUID id) {
-        T result = null;
         Employee employeeFound = entityManager.find(Employee.class, id);
         if (employeeFound == null) {
             throw new EntityNotFoundException();
@@ -123,13 +123,18 @@ public class EmployeeDAOImp implements EmployeeDAO {
         entityManager.getTransaction().begin();
         entityManager.remove(employeeFound);
         entityManager.getTransaction().commit();
+        return getSubType(employeeFound);
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T extends Employee> T getSubType(Employee employeeFound) {
         Reflections reflections = new Reflections(employeeFound.getClass().getPackage().getName());
         Set<Class<? extends Employee>> classSet = reflections.getSubTypesOf(Employee.class);
         for (Class<? extends Employee> clazz : classSet) {
             if (employeeFound.getClass().isAssignableFrom(clazz)) {
-                result = (T) employeeFound;
+                return (T) employeeFound;
             }
         }
-        return result;
+        return null;
     }
 }

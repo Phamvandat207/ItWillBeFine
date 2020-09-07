@@ -345,4 +345,13 @@ class EmployeeDAOImpTest {
             Employee employeeDeleted = employeeDAO.deleteEntity(UUID.randomUUID());
         });
     }
+
+    @Test
+    @DisplayName("Test get Employee return Type")
+    void should_return_correct_Employee_Type() {
+        Engineer engineer = (Engineer) testEmployeeList.get(0);
+        Engineer employeeFound = employeeDAO.findEntityByID(engineer.getId());
+        assertNotNull(employeeFound);
+        assertEquals(engineer, employeeFound);
+    }
 }
