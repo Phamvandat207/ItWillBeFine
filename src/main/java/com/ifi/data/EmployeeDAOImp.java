@@ -42,12 +42,20 @@ public class EmployeeDAOImp implements EmployeeDAO {
 
     @Override
     public Employee findEntityByID(UUID id) {
-        return entityManager.find(Employee.class, id);
+        Employee employee = entityManager.find(Employee.class, id);
+        if (employee != null) {
+            entityManager.detach(employee);
+        }
+        return employee;
     }
 
     @Override
     public <T extends Employee> T findEntityByID(UUID id, Class<T> clazz) {
-        return entityManager.find(clazz, id);
+        T employee = entityManager.find(clazz, id);
+        if (employee != null) {
+            entityManager.detach(employee);
+        }
+        return employee;
     }
 
     @Override
@@ -73,11 +81,18 @@ public class EmployeeDAOImp implements EmployeeDAO {
 
     @Override
     public <T extends Employee> T updateEntity(T employee) throws EmployeeSaveException, EmployeeDataException {
+        Employee employeeFound;
         if (employee.getId() == null) {
             throw new EmployeeDataException();
-        } else if (entityManager.find(employee.getClass(), employee.getId()) == null) {
-            throw new EmployeeSaveException();
+        } else {
+            employeeFound = entityManager.find(employee.getClass(), employee.getId());
+            if (employeeFound == null) {
+                throw new EmployeeSaveException();
+            }
         }
-        return entityManager.merge(employee);
+        entityManager.getTransaction().begin();
+        T result = entityManager.merge(employee);
+        entityManager.getTransaction().commit();
+        return result;
     }
 }
