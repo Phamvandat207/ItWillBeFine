@@ -24,15 +24,15 @@ public class WorkerDTO {
     String name;
 
     @NotNull
-    Gender gender;
+    Gender workerGender;
 
     @NotNull
-    Date dateOfBirth;
+    Date workerDateOfBirth;
 
     @NotNull
     @Temporal(TemporalType.DATE)
     Date joinedDate;
 
     @NotNull
-    BigDecimal hourlyRating;
+    BigDecimal workerHourlyRating;
 }

@@ -23,15 +23,15 @@ public class EngineerDTO {
     String name;
 
     @NotNull
-    Gender gender;
+    Gender engineerGender;
 
     @NotNull
-    Date dateOfBirth;
+    Date engineerDateOfBirth;
 
     @NotNull
     @Temporal(TemporalType.DATE)
     Date joinedDate;
 
     @NotNull
-    BigDecimal allowance;
+    BigDecimal engineerAllowance;
 }
