@@ -31,5 +31,8 @@ public class EngineerDTO {
     Date engineerJoinedDate;
 
     @NotNull
+    BigDecimal engineerMonthlyWage;
+
+    @NotNull
     BigDecimal engineerAllowance;
 }
