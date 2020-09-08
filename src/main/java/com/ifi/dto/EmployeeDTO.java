@@ -2,34 +2,30 @@ package com.ifi.dto;
 
 
 import com.ifi.constants.Gender;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Value;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
-@Value
-@AllArgsConstructor
+@Data
 @Builder
-public class EmployeeDTO implements Serializable {
+public class EmployeeDTO {
 
-    UUID id;
+    final UUID id;
 
     @NotNull
     @Size(min = 2, max = 50)
-    String name;
+    final String name;
 
     @NotNull
-    Gender gender;
+    final Gender gender;
 
     @NotNull
-    Date dateOfBirth;
+    final Date dateOfBirth;
 
     @NotNull
-    Date joinedDate;
+    final Date joinedDate;
 
 }
