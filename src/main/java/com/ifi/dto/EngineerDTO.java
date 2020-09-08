@@ -5,21 +5,20 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
-//@Value
 @EqualsAndHashCode(callSuper = true)
 @Value
 public class EngineerDTO extends EmployeeDTO {
 
-    @NotNull
+    @DecimalMin(value = "0.0", inclusive = true)
+    @Digits(integer=3, fraction=2)
     BigDecimal engineerMonthlyWage;
 
-    @NotNull
+    @Positive
     BigDecimal engineerAllowance;
 
     @Builder(builderMethodName = "engineerBuilder")

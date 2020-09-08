@@ -2,7 +2,8 @@ package com.ifi.dto;
 
 
 import com.ifi.constants.Gender;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -22,10 +23,16 @@ public class EmployeeDTO {
     @NotNull
     final Gender gender;
 
-    @NotNull
     final Date dateOfBirth;
 
     @NotNull
     final Date joinedDate;
 
+    public EmployeeDTO(UUID id, @NotNull @Size(min = 2, max = 50) String name, @NotNull Gender gender, @NotNull Date dateOfBirth, @NotNull Date joinedDate) {
+        this.id = id;
+        this.name = name;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.joinedDate = joinedDate;
+    }
 }
