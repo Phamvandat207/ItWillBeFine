@@ -5,9 +5,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
@@ -16,7 +14,8 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 public class WorkerDTO extends EmployeeDTO {
 
-    @Positive
+    @DecimalMin(value = "0.0", inclusive = false)
+    @Digits(integer = 1, fraction = 5)
     BigDecimal workerHourlyRating;
 
     @Builder(builderMethodName = "workerBuilder")

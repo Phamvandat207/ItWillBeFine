@@ -5,7 +5,10 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
@@ -14,11 +17,12 @@ import java.util.UUID;
 @Value
 public class EngineerDTO extends EmployeeDTO {
 
-    @DecimalMin(value = "0.0", inclusive = true)
-    @Digits(integer=3, fraction=2)
+    @DecimalMin(value = "0.0", inclusive = false)
+    @Digits(integer = 1, fraction = 5)
     BigDecimal engineerMonthlyWage;
 
-    @Positive
+    @DecimalMin(value = "0.0", inclusive = false)
+    @Digits(integer = 1, fraction = 5)
     BigDecimal engineerAllowance;
 
     @Builder(builderMethodName = "engineerBuilder")
