@@ -16,16 +16,16 @@ public class EmployeeDTO {
 
     final UUID id;
 
-    @NotNull
-    @Size(min = 2, max = 50)
+    @NotNull(message = "name cannot be null")
+    @Size(min = 2, max = 50, message = "name must between 2 and 50 characters")
     final String name;
 
-    @NotNull
+    @NotNull(message = "gender cannot be null")
     final Gender gender;
 
     final Date dateOfBirth;
 
-    @NotNull
+    @NotNull(message = "joined date cannot be null")
     final Date joinedDate;
 
     public EmployeeDTO(UUID id, @NotNull @Size(min = 2, max = 50) String name, @NotNull Gender gender, @NotNull Date dateOfBirth, @NotNull Date joinedDate) {

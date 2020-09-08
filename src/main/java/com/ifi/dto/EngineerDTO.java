@@ -17,11 +17,11 @@ import java.util.UUID;
 @Value
 public class EngineerDTO extends EmployeeDTO {
 
-    @DecimalMin(value = "0.0", inclusive = false)
+    @DecimalMin(value = "0.0", inclusive = false, message = "monthly wage must be positive")
     @Digits(integer = 1, fraction = 5)
     BigDecimal engineerMonthlyWage;
 
-    @DecimalMin(value = "0.0", inclusive = false)
+    @DecimalMin(value = "0.0", inclusive = false, message = "monthly wage must be positive")
     @Digits(integer = 1, fraction = 5)
     BigDecimal engineerAllowance;
 
