@@ -2,8 +2,8 @@ package com.ifi.data;
 
 import com.ifi.entity.Employee;
 import com.ifi.entity.Employee_;
-import com.ifi.util.exception.EmployeeDataException;
-import com.ifi.util.exception.EmployeeSaveException;
+import com.ifi.data.exception.EmployeeDataException;
+import com.ifi.data.exception.EmployeeSaveException;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.reflections.Reflections;
 

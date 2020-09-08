@@ -1,4 +1,4 @@
-package com.ifi.util.exception;
+package com.ifi.data.exception;
 
 public class EmployeeSaveException extends Exception {
 }

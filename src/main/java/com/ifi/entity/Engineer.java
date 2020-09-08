@@ -1,6 +1,6 @@
 package com.ifi.entity;
 
-import com.ifi.util.constants.Gender;
+import com.ifi.constants.Gender;
 import lombok.*;
 
 import javax.persistence.Basic;
