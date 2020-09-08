@@ -2,6 +2,7 @@ package com.ifi.dto;
 
 import com.ifi.constants.Gender;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Value;
 
 import javax.persistence.Basic;
@@ -15,27 +16,27 @@ import java.util.UUID;
 
 @Value
 @AllArgsConstructor
+@Builder
 public class WorkerDTO {
 
-    private UUID id;
+    UUID id;
 
     @NotNull
-    @Size(max = 50)
-    private String name;
-
-    @NotNull
-    @Basic
-    private Gender gender;
+    @Size(max = 50) String name;
 
     @NotNull
     @Basic
-    private Date dateOfBirth;
+    Gender gender;
+
+    @NotNull
+    @Basic
+    Date dateOfBirth;
 
     @NotNull
     @Temporal(TemporalType.DATE)
-    private Date joinedDate;
+    Date joinedDate;
 
     @NotNull
     @Basic
-    private BigDecimal hourlyRating;
+    BigDecimal hourlyRating;
 }
