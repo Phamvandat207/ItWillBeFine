@@ -5,9 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
 
-import javax.persistence.Basic;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
@@ -19,24 +16,21 @@ import java.util.UUID;
 @Builder
 public class WorkerDTO {
 
-    UUID id;
+    UUID workerId;
 
     @NotNull
-    @Size(max = 50) String name;
+    @Size(min = 2, max = 50)
+    String workerName;
 
     @NotNull
-    @Basic
-    Gender gender;
+    Gender workerGender;
 
     @NotNull
-    @Basic
-    Date dateOfBirth;
+    Date workerDateOfBirth;
 
     @NotNull
-    @Temporal(TemporalType.DATE)
-    Date joinedDate;
+    Date workerJoinedDate;
 
     @NotNull
-    @Basic
-    BigDecimal hourlyRating;
+    BigDecimal workerHourlyRating;
 }
