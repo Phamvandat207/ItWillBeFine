@@ -17,25 +17,22 @@ import java.util.UUID;
 @AllArgsConstructor
 public class WorkerDTO {
 
-    private UUID id;
+    UUID id;
 
     @NotNull
     @Size(max = 50)
-    private String name;
+    String name;
 
     @NotNull
-    @Basic
-    private Gender gender;
+    Gender gender;
 
     @NotNull
-    @Basic
-    private Date dateOfBirth;
+    Date dateOfBirth;
 
     @NotNull
     @Temporal(TemporalType.DATE)
-    private Date joinedDate;
+    Date joinedDate;
 
     @NotNull
-    @Basic
-    private BigDecimal hourlyRating;
+    BigDecimal hourlyRating;
 }
