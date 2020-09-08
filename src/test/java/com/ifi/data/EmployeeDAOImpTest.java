@@ -44,9 +44,6 @@ class EmployeeDAOImpTest {
     @Inject
     EmployeeDAO employeeDAO;
 
-    @Inject
-    EntityManager entityManager;
-
     @BeforeAll
     static void mockData() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
