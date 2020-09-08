@@ -37,4 +37,8 @@ public class Engineer extends Employee {
         this.monthlyWage = monthlyWage;
         this.allowance = allowance;
     }
+
+    public Engineer(@NonNull String name, @NonNull Gender gender, @NonNull Date dateOfBirth, @NonNull Date joinedDate) {
+        super(name, gender, dateOfBirth, joinedDate);
+    }
 }

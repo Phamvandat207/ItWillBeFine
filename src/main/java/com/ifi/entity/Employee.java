@@ -17,16 +17,16 @@ public class Employee {
     @Id
     @GeneratedValue(generator = "hibernate-uuid")
     @GenericGenerator(name = "hibernate-uuid", strategy = "uuid2")
-    @Column(name = "id", columnDefinition = "BINARY(16)")
+    @Column(name = "id", columnDefinition = "BINARY(16)", updatable = false, nullable = false)
     private UUID id;
 
     @Basic
-    @Column(name = "name")
+    @Column(name = "name", length = 50, nullable = false)
     @NonNull
     private String name;
 
     @Basic
-    @Column(name = "gender")
+    @Column(name = "gender", nullable = false)
     @NonNull
     private Gender gender;
 
@@ -37,7 +37,7 @@ public class Employee {
     private Date dateOfBirth;
 
     @Basic
-    @Column(name = "joined_date")
+    @Column(name = "joined_date", nullable = false)
     @Temporal(TemporalType.DATE)
     @NonNull
     private Date joinedDate;

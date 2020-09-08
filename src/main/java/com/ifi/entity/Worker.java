@@ -29,4 +29,8 @@ public class Worker extends Employee {
         super(name, gender, dateOfBirth, joinedDate);
         this.hourlyRating = hourlyRating;
     }
+
+    public Worker(@NonNull String name, @NonNull Gender gender, @NonNull Date dateOfBirth, @NonNull Date joinedDate) {
+        super(name, gender, dateOfBirth, joinedDate);
+    }
 }
