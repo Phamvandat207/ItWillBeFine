@@ -5,23 +5,22 @@
          version="4.0">
     <context-param>
         <param-name>resteasy.resources</param-name>
-        <param-value>com.ifi.rest.EmployeeRest</param-value>
+        <param-value>
+            com.ifi.rest.EmployeeRest,
+            com.ifi.rest.EngineerAPI
+        </param-value>
     </context-param>
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
-    <listener>
-        <listener-class>
-            org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
-    </listener>
-    <servlet>
-        <servlet-name>resteasy-servlet</servlet-name>
-        <servlet-class>
-            org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
-    </servlet>
 
+    <servlet>
+        <servlet-name>javax.ws.rs.core.Application</servlet-name>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <servlet-mapping>
-        <servlet-name>resteasy-servlet</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <servlet-name>javax.ws.rs.core.Application</servlet-name>
+        <url-pattern>/resources/*</url-pattern>
     </servlet-mapping>
+
 </web-app>
