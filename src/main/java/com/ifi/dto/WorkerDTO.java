@@ -1,5 +1,6 @@
 package com.ifi.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifi.constants.Gender;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -19,6 +20,7 @@ public class WorkerDTO extends EmployeeDTO {
 
     @DecimalMin(value = "0.0", inclusive = false, message = "monthly wage must be positive")
     @Digits(integer = 1, fraction = 5)
+    @JsonProperty("hourly_rating")
     BigDecimal workerHourlyRating;
 
     @Builder(builderMethodName = "workerBuilder")

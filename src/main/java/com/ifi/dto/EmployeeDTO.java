@@ -48,6 +48,7 @@ public class EmployeeDTO {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     final LocalDate joinedDate;
 
+    @JsonProperty("employee_type")
     String type;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
