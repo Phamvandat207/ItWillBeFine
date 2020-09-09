@@ -8,8 +8,6 @@ import lombok.Value;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -18,13 +16,18 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 public class WorkerDTO extends EmployeeDTO {
 
-    @DecimalMin(value = "0.0", inclusive = false, message = "monthly wage must be positive")
+    @DecimalMin(value = "0", message = "hourly rating must be positive")
     @Digits(integer = 1, fraction = 5)
     @JsonProperty("hourly_rating")
     BigDecimal workerHourlyRating;
 
     @Builder(builderMethodName = "workerBuilder")
-    public WorkerDTO(UUID id, @NotNull @Size(min = 2, max = 50) String name, @NotNull Gender gender, @NotNull LocalDate dateOfBirth, @NotNull LocalDate joinedDate, @NotNull BigDecimal workerHourlyRating) {
+    public WorkerDTO(@JsonProperty("employee_id") UUID id,
+                     @JsonProperty("employee_name") String name,
+                     @JsonProperty("gender") Gender gender,
+                     @JsonProperty("date_of_birth") LocalDate dateOfBirth,
+                     @JsonProperty("joined_date") LocalDate joinedDate,
+                     @JsonProperty("hourly_rating") BigDecimal workerHourlyRating) {
         super(id, name, gender, dateOfBirth, joinedDate);
         this.workerHourlyRating = workerHourlyRating;
     }
