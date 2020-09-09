@@ -28,12 +28,12 @@ public class EmployeeDTO {
     @JsonProperty("gender")
     final Gender gender;
 
-    @JsonFormat(locale = "en", shape = JsonFormat.Shape.STRING, pattern = "dd-MM-YYYY")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-YYYY")
     @JsonProperty("date_of_birth")
     final Date dateOfBirth;
 
     @NotNull(message = "joined date cannot be null")
-    @JsonFormat(locale = "en", shape = JsonFormat.Shape.STRING, pattern = "dd-MM-YYYY")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-YYYY")
     @JsonProperty("joined_date")
     final Date joinedDate;
 
