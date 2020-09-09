@@ -32,13 +32,11 @@ public class Employee {
 
     @Basic
     @Column(name = "dob")
-//    @Temporal(TemporalType.DATE)
     @NonNull
     private Date dateOfBirth;
 
     @Basic
     @Column(name = "joined_date", nullable = false)
-//    @Temporal(TemporalType.DATE)
     @NonNull
     private Date joinedDate;
 }
