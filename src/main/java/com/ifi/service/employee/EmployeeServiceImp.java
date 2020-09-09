@@ -25,7 +25,8 @@ public class EmployeeServiceImp implements EmployeeService {
     @Override
     public EmployeeDTO createNewEmployee(EmployeeDTO employeeDTO) throws EmployeeSaveException {
         Employee employeeToAdd = employeeMapper.employeeDTOtoEmployee(employeeDTO);
-        Employee employeeAdded = employeeDAO.addNewEntity(employeeToAdd);
-        return employeeMapper.employeeToEmployeeDTO(employeeAdded);
+        EmployeeDTO result = employeeMapper.employeeToEmployeeDTO(employeeDAO.addNewEntity(employeeToAdd));
+        result.setType(Employee.class.getSimpleName());
+        return result;
     }
 }
