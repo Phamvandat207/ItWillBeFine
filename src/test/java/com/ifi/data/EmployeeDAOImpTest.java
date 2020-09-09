@@ -18,15 +18,14 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.util.Date;
+import java.time.LocalDate;
+import java.sql.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.ifi.util.listener.AppListener.JOIN_DATE;
 import static org.junit.jupiter.api.Assertions.*;
 
 @EnableAutoWeld
@@ -46,36 +45,33 @@ class EmployeeDAOImpTest {
 
     @BeforeAll
     static void mockData() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
-        try {
-            Stream<Employee> stream = Stream.of(
-                    new Engineer("Duc",
-                            Gender.MALE,
-                            dateFormat.parse("17-09-1992"),
-                            dateFormat.parse("11-08-2020"),
-                            BigDecimal.valueOf(0.08),
-                            BigDecimal.valueOf(0.003)),
-                    new Employee("Dat",
-                            Gender.OTHER,
-                            dateFormat.parse("15-07-1997"),
-                            dateFormat.parse("11-08-2020")),
-                    new Employee("Phuong",
-                            Gender.FEMALE,
-                            dateFormat.parse("20-04-1998"),
-                            dateFormat.parse("11-08-2020")),
-                    new Worker("Duy", Gender.MALE,
-                            dateFormat.parse("17-09-1998"),
-                            dateFormat.parse("11-08-2020"),
-                            BigDecimal.valueOf(0.003)),
-                    new Employee("Chinh",
-                            Gender.MALE,
-                            dateFormat.parse("7-12-1998"),
-                            dateFormat.parse("11-08-2020"))
-            );
-            testEmployeeList = stream.collect(Collectors.toList());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+
+        Stream<Employee> stream = Stream.of(
+                new Engineer("Duc",
+                        Gender.MALE,
+                        java.sql.Date.valueOf(LocalDate.of(1992, 9, 17)),
+                        java.sql.Date.valueOf(JOIN_DATE),
+                        BigDecimal.valueOf(0.08),
+                        BigDecimal.valueOf(0.003)),
+                new Employee("Dat",
+                        Gender.OTHER,
+                        java.sql.Date.valueOf(LocalDate.of(1997, 7, 15)),
+                        java.sql.Date.valueOf(JOIN_DATE)),
+                new Employee("Phuong",
+                        Gender.FEMALE,
+                        java.sql.Date.valueOf(LocalDate.of(1998, 4, 20)),
+                        java.sql.Date.valueOf(JOIN_DATE)),
+                new Worker("Duy", Gender.MALE,
+                        java.sql.Date.valueOf(LocalDate.of(1998, 9, 17)),
+                        java.sql.Date.valueOf(JOIN_DATE),
+                        BigDecimal.valueOf(0.003)),
+                new Employee("Chinh",
+                        Gender.MALE,
+                        java.sql.Date.valueOf(LocalDate.of(1999, 9, 17)),
+                        java.sql.Date.valueOf(JOIN_DATE))
+        );
+        testEmployeeList = stream.collect(Collectors.toList());
+
     }
 
     @BeforeEach
@@ -172,8 +168,8 @@ class EmployeeDAOImpTest {
         int expectedSize = testEmployeeList.size();
         Employee employee = new Employee("dummy",
                 Gender.MALE,
-                Date.from(Instant.ofEpochMilli(0L)),
-                Date.from(Instant.now()));
+                Date.valueOf(LocalDate.of(1992, 9, 17)),
+                Date.valueOf(LocalDate.now()));
         Employee employeeSaved = employeeDAO.addNewEntity(employee);
         assertNotNull(employeeSaved);
         assertEquals(employee, employeeSaved);
@@ -186,8 +182,8 @@ class EmployeeDAOImpTest {
         int expectedSize = testEmployeeList.size();
         Engineer engineer = new Engineer("dummy",
                 Gender.MALE,
-                Date.from(Instant.ofEpochMilli(0L)),
-                Date.from(Instant.now()),
+                Date.valueOf(LocalDate.of(1992, 9, 17)),
+                Date.valueOf(LocalDate.now()),
                 BigDecimal.valueOf(0.01),
                 BigDecimal.valueOf(0.001));
         Engineer employeeSaved = employeeDAO.addNewEntity(engineer);
@@ -202,8 +198,8 @@ class EmployeeDAOImpTest {
         int expectedSize = testEmployeeList.size();
         Worker worker = new Worker("dummy",
                 Gender.MALE,
-                Date.from(Instant.ofEpochMilli(0L)),
-                Date.from(Instant.now()),
+                Date.valueOf(LocalDate.of(1992, 9, 17)),
+                Date.valueOf(LocalDate.now()),
                 BigDecimal.valueOf(0.001));
         Worker employeeSaved = employeeDAO.addNewEntity(worker);
         assertNotNull(employeeSaved);
@@ -216,8 +212,8 @@ class EmployeeDAOImpTest {
     void should_not_add_employee() {
         Employee employee = new Employee("dummy",
                 Gender.MALE,
-                Date.from(Instant.ofEpochMilli(0L)),
-                Date.from(Instant.now()));
+                Date.valueOf(LocalDate.of(1992, 9, 17)),
+                Date.valueOf(LocalDate.now()));
         employee.setId(UUID.randomUUID());
         assertThrows(EmployeeSaveException.class, () -> {
             Employee employeeSaved = employeeDAO.addNewEntity(employee);
@@ -291,8 +287,8 @@ class EmployeeDAOImpTest {
     void should_delete_engineer() throws EmployeeSaveException {
         Engineer engineer = new Engineer("dummy",
                 Gender.MALE,
-                Date.from(Instant.ofEpochMilli(0L)),
-                Date.from(Instant.now()),
+                Date.valueOf(LocalDate.of(1992, 9, 17)),
+                Date.valueOf(LocalDate.now()),
                 BigDecimal.valueOf(0.01),
                 BigDecimal.valueOf(0.001));
         employeeDAO.addNewEntity(engineer);
@@ -306,8 +302,8 @@ class EmployeeDAOImpTest {
     void should_delete_worker() throws EmployeeSaveException {
         Worker worker = new Worker("dummy",
                 Gender.MALE,
-                Date.from(Instant.ofEpochMilli(0L)),
-                Date.from(Instant.now()),
+                Date.valueOf(LocalDate.of(1992, 9, 17)),
+                Date.valueOf(LocalDate.now()),
                 BigDecimal.valueOf(0.001));
         employeeDAO.addNewEntity(worker);
         Worker employeeDeleted = employeeDAO.deleteEntity(worker);

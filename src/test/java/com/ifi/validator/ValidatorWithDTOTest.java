@@ -34,11 +34,8 @@ public class ValidatorWithDTOTest {
     UUID expectedId = UUID.randomUUID();
     String expectedName = "valid_name";
     Gender expectedGender = Gender.MALE;
-    Date expectedDob = Date.from(LocalDate
-            .of(1992, 9, 17)
-            .atStartOfDay(ZoneId.systemDefault())
-            .toInstant());
-    Date expectedJoinedDate = Date.from(Instant.now());
+    LocalDate expectedDob = LocalDate.of(1992, 9, 17);
+    LocalDate expectedJoinedDate = LocalDate.now();
 
     @Test
     @DisplayName("Should validate Employee with Valid Data")

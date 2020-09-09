@@ -5,7 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 import java.util.UUID;
 
 @Entity(name = "employee")
@@ -32,13 +32,13 @@ public class Employee {
 
     @Basic
     @Column(name = "dob")
-    @Temporal(TemporalType.DATE)
+//    @Temporal(TemporalType.DATE)
     @NonNull
     private Date dateOfBirth;
 
     @Basic
     @Column(name = "joined_date", nullable = false)
-    @Temporal(TemporalType.DATE)
+//    @Temporal(TemporalType.DATE)
     @NonNull
     private Date joinedDate;
 }

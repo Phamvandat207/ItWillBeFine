@@ -8,7 +8,6 @@ import com.ifi.entity.Engineer;
 import com.ifi.entity.Worker;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -17,17 +16,16 @@ import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @WebListener()
 public class AppListener implements ServletContextListener,
         HttpSessionListener, HttpSessionAttributeListener {
-    public static final String JOIN_DATE = "11-08-2020";
+    public static final LocalDate JOIN_DATE = LocalDate.of(2020, 8, 11);
     @Inject
     EmployeeDAO employeeDAO;
 
@@ -46,43 +44,38 @@ public class AppListener implements ServletContextListener,
       */
         if (employeeDAO.getCurrentSize() == 0) {
             List<Employee> sampleData;
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
-            try {
-                Stream<Employee> stream = Stream.of(
-                        new Engineer("Duc",
-                                Gender.MALE,
-                                dateFormat.parse("17-09-1992"),
-                                dateFormat.parse(JOIN_DATE),
-                                BigDecimal.valueOf(0.08),
-                                BigDecimal.valueOf(0.003)),
-                        new Employee("Dat",
-                                Gender.OTHER,
-                                dateFormat.parse("15-07-1997"),
-                                dateFormat.parse(JOIN_DATE)),
-                        new Employee("Phuong",
-                                Gender.FEMALE,
-                                dateFormat.parse("20-04-1998"),
-                                dateFormat.parse(JOIN_DATE)),
-                        new Worker("Duy", Gender.MALE,
-                                dateFormat.parse("17-09-1998"),
-                                dateFormat.parse(JOIN_DATE),
-                                BigDecimal.valueOf(0.003)),
-                        new Employee("Chinh",
-                                Gender.MALE,
-                                dateFormat.parse("7-12-1998"),
-                                dateFormat.parse(JOIN_DATE))
-                );
-                sampleData = stream.collect(Collectors.toList());
-                sampleData.forEach(employee -> {
-                    try {
-                        employeeDAO.addNewEntity(employee);
-                    } catch (EmployeeSaveException e) {
-                        e.printStackTrace();
-                    }
-                });
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            Stream<Employee> stream = Stream.of(
+                    new Engineer("Duc",
+                            Gender.MALE,
+                            Date.valueOf(LocalDate.of(1992, 9, 17)),
+                            Date.valueOf(JOIN_DATE),
+                            BigDecimal.valueOf(0.08),
+                            BigDecimal.valueOf(0.003)),
+                    new Employee("Dat",
+                            Gender.OTHER,
+                            Date.valueOf(LocalDate.of(1997, 7, 15)),
+                            Date.valueOf(JOIN_DATE)),
+                    new Employee("Phuong",
+                            Gender.FEMALE,
+                            Date.valueOf(LocalDate.of(1998, 4, 20)),
+                            Date.valueOf(JOIN_DATE)),
+                    new Worker("Duy", Gender.MALE,
+                            Date.valueOf(LocalDate.of(1998, 9, 17)),
+                            Date.valueOf(JOIN_DATE),
+                            BigDecimal.valueOf(0.003)),
+                    new Employee("Chinh",
+                            Gender.MALE,
+                            Date.valueOf(LocalDate.of(1999, 9, 17)),
+                            Date.valueOf(JOIN_DATE))
+            );
+            sampleData = stream.collect(Collectors.toList());
+            sampleData.forEach(employee -> {
+                try {
+                    employeeDAO.addNewEntity(employee);
+                } catch (EmployeeSaveException e) {
+                    e.printStackTrace();
+                }
+            });
         }
 
         System.out.println("Application Started!");

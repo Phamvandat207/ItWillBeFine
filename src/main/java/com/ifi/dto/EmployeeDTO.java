@@ -4,17 +4,22 @@ package com.ifi.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.ifi.constants.Gender;
 import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
 @Builder
+@JsonSerialize
 public class EmployeeDTO {
     @JsonProperty("employee_id")
     final UUID id;
@@ -28,21 +33,25 @@ public class EmployeeDTO {
     @JsonProperty("gender")
     final Gender gender;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-YYYY")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @JsonProperty("date_of_birth")
-    final Date dateOfBirth;
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    final LocalDate dateOfBirth;
 
     @NotNull(message = "joined date cannot be null")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-YYYY")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @JsonProperty("joined_date")
-    final Date joinedDate;
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    final LocalDate joinedDate;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public EmployeeDTO(@JsonProperty("employee_id") UUID id,
                        @JsonProperty("employee_name") @NotNull @Size(min = 2, max = 50) String name,
                        @JsonProperty("gender") @NotNull Gender gender,
-                       @JsonProperty("date_of_birth") @NotNull Date dateOfBirth,
-                       @JsonProperty("joined_date") @NotNull Date joinedDate) {
+                       @JsonProperty("date_of_birth") @NotNull LocalDate dateOfBirth,
+                       @JsonProperty("joined_date") @NotNull LocalDate joinedDate) {
         this.id = id;
         this.name = name;
         this.gender = gender;

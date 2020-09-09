@@ -10,7 +10,7 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
@@ -26,7 +26,7 @@ public class EngineerDTO extends EmployeeDTO {
     BigDecimal engineerAllowance;
 
     @Builder(builderMethodName = "engineerBuilder")
-    public EngineerDTO(UUID id, @NotNull @Size(min = 2, max = 50) String name, @NotNull Gender gender, @NotNull Date dateOfBirth, @NotNull Date joinedDate, @NotNull BigDecimal engineerMonthlyWage, @NotNull BigDecimal engineerAllowance) {
+    public EngineerDTO(UUID id, @NotNull @Size(min = 2, max = 50) String name, @NotNull Gender gender, @NotNull LocalDate dateOfBirth, @NotNull LocalDate joinedDate, @NotNull BigDecimal engineerMonthlyWage, @NotNull BigDecimal engineerAllowance) {
         super(id, name, gender, dateOfBirth, joinedDate);
         this.engineerMonthlyWage = engineerMonthlyWage;
         this.engineerAllowance = engineerAllowance;
