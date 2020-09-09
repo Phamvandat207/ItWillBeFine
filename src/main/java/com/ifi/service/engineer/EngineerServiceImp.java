@@ -1,6 +1,7 @@
 package com.ifi.service.engineer;
 
 import com.ifi.data.EmployeeDAO;
+import com.ifi.data.exception.EmployeeDataException;
 import com.ifi.data.exception.EmployeeSaveException;
 import com.ifi.dto.EngineerDTO;
 import com.ifi.entity.Engineer;
@@ -18,8 +19,16 @@ public class EngineerServiceImp implements EngineerService {
     @Override
     public EngineerDTO addNewEngineer(EngineerDTO engineerDTO) throws EmployeeSaveException {
         Engineer toAdd = employeeMapper.engineerDTOToEngineer(engineerDTO);
-        EngineerDTO result = employeeMapper.engineerToEngineerDTO(employeeDAO.addNewEntity(toAdd));
-        result.setType(Engineer.class.getSimpleName());
-        return result;
+        EngineerDTO added = employeeMapper.engineerToEngineerDTO(employeeDAO.addNewEntity(toAdd));
+        added.setType(Engineer.class.getSimpleName());
+        return added;
+    }
+
+    @Override
+    public EngineerDTO updateEngineer(EngineerDTO engineerDTO) throws EmployeeSaveException, EmployeeDataException {
+        Engineer toUpdate = employeeMapper.engineerDTOToEngineer(engineerDTO);
+        EngineerDTO updated = employeeMapper.engineerToEngineerDTO(employeeDAO.updateEntity(toUpdate));
+        updated.setType(Engineer.class.getSimpleName());
+        return updated;
     }
 }
