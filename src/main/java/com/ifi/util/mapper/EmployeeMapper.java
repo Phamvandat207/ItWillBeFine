@@ -9,10 +9,11 @@ import com.ifi.entity.Worker;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "cdi")
+@Mapper(componentModel = "cdi", imports = BigDecimal.class)
 public interface EmployeeMapper {
 
     EmployeeDTO employeeToEmployeeDTO(Employee employee);
@@ -41,14 +42,14 @@ public interface EmployeeMapper {
     @Mapping(target = "engineerAllowance", source = "allowance")
     EngineerDTO engineerToEngineerDTO(Engineer engineer);
 
-    @Mapping(target = "monthlyWage", source = "engineerMonthlyWage")
-    @Mapping(target = "allowance", source = "engineerAllowance")
+    @Mapping(target = "monthlyWage", source = "engineerMonthlyWage", defaultExpression = "java(BigDecimal.ZERO)")
+    @Mapping(target = "allowance", source = "engineerAllowance", defaultExpression = "java(BigDecimal.ZERO)")
     Engineer engineerDTOToEngineer(EngineerDTO engineerDTO);
 
     @Mapping(target = "workerHourlyRating", source = "hourlyRating")
     WorkerDTO workerToWorkerDTO(Worker worker);
 
-    @Mapping(target = "hourlyRating", source = "workerHourlyRating")
+    @Mapping(target = "hourlyRating", source = "workerHourlyRating", defaultExpression = "java(BigDecimal.ZERO)")
     Worker workerDTOToWorker(WorkerDTO workerDTO);
 
 }
