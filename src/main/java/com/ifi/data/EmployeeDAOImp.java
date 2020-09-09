@@ -1,9 +1,9 @@
 package com.ifi.data;
 
-import com.ifi.entity.Employee;
-import com.ifi.entity.Employee_;
 import com.ifi.data.exception.EmployeeDataException;
 import com.ifi.data.exception.EmployeeSaveException;
+import com.ifi.entity.Employee;
+import com.ifi.entity.Employee_;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.reflections.Reflections;
 
@@ -134,7 +134,9 @@ public class EmployeeDAOImp implements EmployeeDAO {
         }
         try {
             userTransaction.begin();
-            entityManager.remove(employeeFound);
+            entityManager.remove(
+                    entityManager.contains(employeeFound) ? employeeFound : entityManager.merge(employeeFound)
+            );
             userTransaction.commit();
         } catch (NotSupportedException | SystemException | HeuristicMixedException | HeuristicRollbackException | RollbackException e) {
             e.printStackTrace();
