@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.ifi.constants.Gender;
+import com.ifi.util.validator.joindate.JoinDate;
 import lombok.Builder;
 import lombok.Data;
 
@@ -19,6 +20,7 @@ import java.util.UUID;
 
 @Data
 @Builder
+@JoinDate
 @JsonSerialize
 public class EmployeeDTO {
     @JsonProperty("employee_id")
