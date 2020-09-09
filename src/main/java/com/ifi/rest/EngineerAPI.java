@@ -48,6 +48,7 @@ public class EngineerAPI {
 
     @DELETE
     @Path("/{engineerId}")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response deleteEngineer(@PathParam("engineerId") String id) {
         try {
             engineerService.deleteEngineer(id);
