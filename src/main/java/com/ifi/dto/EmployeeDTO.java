@@ -19,7 +19,6 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
-//@Builder
 @JoinDate
 @JsonSerialize
 public class EmployeeDTO {
@@ -54,10 +53,10 @@ public class EmployeeDTO {
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     @Builder
     public EmployeeDTO(@JsonProperty("employee_id") UUID id,
-                       @JsonProperty("employee_name") @NotNull @Size(min = 2, max = 50) String name,
-                       @JsonProperty("gender") @NotNull Gender gender,
-                       @JsonProperty("date_of_birth") @NotNull LocalDate dateOfBirth,
-                       @JsonProperty("joined_date") @NotNull LocalDate joinedDate) {
+                       @JsonProperty("employee_name") String name,
+                       @JsonProperty("gender") Gender gender,
+                       @JsonProperty("date_of_birth") LocalDate dateOfBirth,
+                       @JsonProperty("joined_date") LocalDate joinedDate) {
         this.id = id;
         this.name = name;
         this.gender = gender;

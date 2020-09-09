@@ -1,5 +1,6 @@
 package com.ifi.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ifi.constants.Gender;
 import lombok.Builder;
@@ -8,8 +9,6 @@ import lombok.Value;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -29,7 +28,14 @@ public class EngineerDTO extends EmployeeDTO {
     BigDecimal engineerAllowance;
 
     @Builder(builderMethodName = "engineerBuilder")
-    public EngineerDTO(UUID id, @NotNull @Size(min = 2, max = 50) String name, @NotNull Gender gender, @NotNull LocalDate dateOfBirth, @NotNull LocalDate joinedDate, @NotNull BigDecimal engineerMonthlyWage, @NotNull BigDecimal engineerAllowance) {
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public EngineerDTO(@JsonProperty("employee_id") UUID id,
+                       @JsonProperty("employee_name") String name,
+                       @JsonProperty("gender") Gender gender,
+                       @JsonProperty("date_of_birth") LocalDate dateOfBirth,
+                       @JsonProperty("joined_date") LocalDate joinedDate,
+                       @JsonProperty("monthly_wage") BigDecimal engineerMonthlyWage,
+                       @JsonProperty("allowance") BigDecimal engineerAllowance) {
         super(id, name, gender, dateOfBirth, joinedDate);
         this.engineerMonthlyWage = engineerMonthlyWage;
         this.engineerAllowance = engineerAllowance;
