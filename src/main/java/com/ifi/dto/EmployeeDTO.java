@@ -2,6 +2,7 @@ package com.ifi.dto;
 
 
 import com.ifi.constants.Gender;
+import com.ifi.util.validator.joindate.JoinDate;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,6 +13,7 @@ import java.util.UUID;
 
 @Data
 @Builder
+@JoinDate
 public class EmployeeDTO {
 
     final UUID id;

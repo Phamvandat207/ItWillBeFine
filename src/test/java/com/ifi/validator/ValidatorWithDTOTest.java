@@ -4,6 +4,7 @@ import com.ifi.constants.Gender;
 import com.ifi.dto.EmployeeDTO;
 import com.ifi.dto.EngineerDTO;
 import com.ifi.dto.WorkerDTO;
+import com.ifi.entity.Employee;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -275,6 +276,28 @@ public class ValidatorWithDTOTest {
     }
 
     @Test
+    @DisplayName("Should not validate Joined date with the date before DoB")
+    void should_not_validate_Joined_date_with_the_date_before_DoB() {
+        Date expectedDob = Date.from(LocalDate
+                .of(1992, 9, 17)
+                .atStartOfDay(ZoneId.systemDefault())
+                .toInstant());
+        Date expectedJoinedDate = Date.from(LocalDate
+                .of(1990, 9, 17)
+                .atStartOfDay(ZoneId.systemDefault())
+                .toInstant());
+        EmployeeDTO employeeDTO = new EmployeeDTO(
+                expectedId,
+                expectedName,
+                expectedGender,
+                expectedDob,
+                expectedJoinedDate
+        );
+        Set<ConstraintViolation<EmployeeDTO>> violations = validator.validate(employeeDTO);
+        assertNotEquals(0, violations.size());
+    }
+
+    @Test
     @DisplayName("Should Not validate Employee with default constructor")
     void should_not_validate_employee() {
         Class<EmployeeDTO> clazz = EmployeeDTO.class;
@@ -303,4 +326,5 @@ public class ValidatorWithDTOTest {
             assertNull(workerDTO);
         });
     }
+
 }
