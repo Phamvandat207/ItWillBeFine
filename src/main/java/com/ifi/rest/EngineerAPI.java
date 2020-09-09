@@ -4,6 +4,8 @@ import com.ifi.data.exception.EmployeeDataException;
 import com.ifi.data.exception.EmployeeSaveException;
 import com.ifi.dto.EngineerDTO;
 import com.ifi.service.engineer.EngineerService;
+import com.ifi.service.exception.DeleteEntityException;
+import com.ifi.util.message.ResponseMessage;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -42,5 +44,16 @@ public class EngineerAPI {
             return Response.status(400, "engineer id cannot null").build();
         }
         return Response.ok(engineerUpdated).build();
+    }
+
+    @DELETE
+    @Path("/{engineerId}")
+    public Response deleteEngineer(@PathParam("engineerId") String id) {
+        try {
+            engineerService.deleteEngineer(id);
+            return Response.ok(new ResponseMessage(200, "entity deleted")).build();
+        } catch (DeleteEntityException e) {
+            return Response.status(400, "error deleted").build();
+        }
     }
 }
