@@ -6,21 +6,28 @@ import com.ifi.service.engineer.EngineerService;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-@Path("/resources/engineers")
+@Path("/engineers")
 public class EngineerAPI {
     @Inject
     EngineerService engineerService;
 
     @POST
-    public EngineerDTO addNewEngineer(@Valid EngineerDTO engineerDTO) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addNewEngineer(@Valid EngineerDTO engineerDTO) {
+        EngineerDTO engineerAdded;
         try {
-            return engineerService.addNewEngineer(engineerDTO);
+            engineerAdded = engineerService.addNewEngineer(engineerDTO);
         } catch (EmployeeSaveException e) {
-            e.printStackTrace();
+            return Response.status(400, "error saved entity").build();
         }
-        return null;
+        return Response.ok(engineerAdded).build();
     }
 }

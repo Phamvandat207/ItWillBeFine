@@ -18,6 +18,8 @@ public class EngineerServiceImp implements EngineerService {
     @Override
     public EngineerDTO addNewEngineer(EngineerDTO engineerDTO) throws EmployeeSaveException {
         Engineer toAdd = employeeMapper.engineerDTOToEngineer(engineerDTO);
-        return employeeMapper.engineerToEngineerDTO(employeeDAO.addNewEntity(toAdd));
+        EngineerDTO result = employeeMapper.engineerToEngineerDTO(employeeDAO.addNewEntity(toAdd));
+        result.setType(Engineer.class.getSimpleName());
+        return result;
     }
 }
