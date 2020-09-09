@@ -1,6 +1,6 @@
 package com.ifi.entity;
 
-import com.ifi.util.constants.Gender;
+import com.ifi.constants.Gender;
 import lombok.*;
 
 import javax.persistence.Basic;
@@ -28,5 +28,9 @@ public class Worker extends Employee {
                   @NonNull BigDecimal hourlyRating) {
         super(name, gender, dateOfBirth, joinedDate);
         this.hourlyRating = hourlyRating;
+    }
+
+    public Worker(@NonNull String name, @NonNull Gender gender, @NonNull Date dateOfBirth, @NonNull Date joinedDate) {
+        super(name, gender, dateOfBirth, joinedDate);
     }
 }

@@ -1,8 +1,8 @@
 package com.ifi.data;
 
 import com.ifi.entity.Employee;
-import com.ifi.util.exception.EmployeeDataException;
-import com.ifi.util.exception.EmployeeSaveException;
+import com.ifi.data.exception.EmployeeDataException;
+import com.ifi.data.exception.EmployeeSaveException;
 
 import javax.ejb.Local;
 import java.util.List;

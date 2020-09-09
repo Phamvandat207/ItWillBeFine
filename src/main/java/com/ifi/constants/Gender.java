@@ -1,4 +1,4 @@
-package com.ifi.util.constants;
+package com.ifi.constants;
 
 public enum Gender {
     MALE, FEMALE, OTHER

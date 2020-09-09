@@ -3,10 +3,9 @@ package com.ifi.data;
 import com.ifi.entity.Employee;
 import com.ifi.entity.Engineer;
 import com.ifi.entity.Worker;
-import com.ifi.util.constants.Gender;
-import com.ifi.util.exception.EmployeeDataException;
-import com.ifi.util.exception.EmployeeSaveException;
-import javassist.NotFoundException;
+import com.ifi.constants.Gender;
+import com.ifi.data.exception.EmployeeDataException;
+import com.ifi.data.exception.EmployeeSaveException;
 import org.jboss.weld.junit5.auto.AddBeanClasses;
 import org.jboss.weld.junit5.auto.EnableAutoWeld;
 import org.junit.jupiter.api.*;
@@ -44,9 +43,6 @@ class EmployeeDAOImpTest {
 
     @Inject
     EmployeeDAO employeeDAO;
-
-    @Inject
-    EntityManager entityManager;
 
     @BeforeAll
     static void mockData() {
