@@ -13,10 +13,9 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
-import java.util.UUID;
 
 @Path("/employees")
-public class EmployeeRest {
+public class EmployeeAPI {
     @Inject
     EmployeeService employeeService;
 
@@ -41,7 +40,6 @@ public class EmployeeRest {
     }
 
     @PUT
-    @Path("/resources/employees/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response editEmployee(@Valid EmployeeDTO employeeDTO) {

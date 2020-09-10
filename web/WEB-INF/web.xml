@@ -6,7 +6,7 @@
     <context-param>
         <param-name>resteasy.resources</param-name>
         <param-value>
-            com.ifi.rest.EmployeeRest,
+            com.ifi.rest.EmployeeAPI,
             com.ifi.rest.EngineerAPI,
             com.ifi.rest.WorkerAPI
         </param-value>
