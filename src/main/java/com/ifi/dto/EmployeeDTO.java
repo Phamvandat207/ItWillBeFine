@@ -21,7 +21,9 @@ import java.util.UUID;
 @Data
 @JoinDate
 @JsonSerialize
+@JsonDeserialize
 public class EmployeeDTO {
+
     @JsonProperty("employee_id")
     final UUID id;
 
