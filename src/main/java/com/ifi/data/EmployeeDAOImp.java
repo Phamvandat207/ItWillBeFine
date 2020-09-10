@@ -1,13 +1,14 @@
 package com.ifi.data;
 
-import com.ifi.entity.Employee;
-import com.ifi.entity.Employee_;
 import com.ifi.data.exception.EmployeeDataException;
 import com.ifi.data.exception.EmployeeSaveException;
+import com.ifi.entity.Employee;
+import com.ifi.entity.Employee_;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.reflections.Reflections;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -16,17 +17,19 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import javax.transaction.Transactional;
+import javax.transaction.*;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-@Transactional
 @ApplicationScoped
 @Named
 public class EmployeeDAOImp implements EmployeeDAO {
     @Inject
     EntityManager entityManager;
+
+    @Resource
+    UserTransaction userTransaction;
 
     @PostConstruct
     public void init() {
@@ -68,10 +71,14 @@ public class EmployeeDAOImp implements EmployeeDAO {
         if (employee.getId() != null) {
             throw new EmployeeSaveException();
         }
-        entityManager.getTransaction().begin();
-        entityManager.persist(employee);
-        entityManager.flush();
-        entityManager.getTransaction().commit();
+        try {
+            userTransaction.begin();
+            entityManager.persist(employee);
+            entityManager.flush();
+            userTransaction.commit();
+        } catch (NotSupportedException | SystemException | HeuristicMixedException | HeuristicRollbackException | RollbackException e) {
+            e.printStackTrace();
+        }
         return employee;
     }
 
@@ -87,6 +94,7 @@ public class EmployeeDAOImp implements EmployeeDAO {
     @Override
     public <T extends Employee> T updateEntity(T employee) throws EmployeeSaveException, EmployeeDataException {
         Employee employeeFound;
+        T result = null;
         if (employee.getId() == null) {
             throw new EmployeeDataException();
         } else {
@@ -95,9 +103,13 @@ public class EmployeeDAOImp implements EmployeeDAO {
                 throw new EmployeeSaveException();
             }
         }
-        entityManager.getTransaction().begin();
-        T result = entityManager.merge(employee);
-        entityManager.getTransaction().commit();
+        try {
+            userTransaction.begin();
+            result = entityManager.merge(employee);
+            userTransaction.commit();
+        } catch (NotSupportedException | SystemException | HeuristicMixedException | HeuristicRollbackException | RollbackException e) {
+            e.printStackTrace();
+        }
         return result;
     }
 
@@ -105,25 +117,30 @@ public class EmployeeDAOImp implements EmployeeDAO {
     public <T extends Employee> T deleteEntity(T employee) {
         Class<? extends Employee> clazz = employee.getClass();
         Employee employeeFound = entityManager.find(clazz, employee.getId());
-        if (employeeFound == null) {
-            throw new EntityNotFoundException();
-        }
-        entityManager.getTransaction().begin();
-        entityManager.remove(employeeFound);
-        entityManager.getTransaction().commit();
+        removeEntity(employeeFound);
         return employee;
     }
 
     @Override
     public <T extends Employee> T deleteEntity(UUID id) {
         Employee employeeFound = entityManager.find(Employee.class, id);
+        removeEntity(employeeFound);
+        return getSubType(employeeFound);
+    }
+
+    private void removeEntity(Employee employeeFound) {
         if (employeeFound == null) {
             throw new EntityNotFoundException();
         }
-        entityManager.getTransaction().begin();
-        entityManager.remove(employeeFound);
-        entityManager.getTransaction().commit();
-        return getSubType(employeeFound);
+        try {
+            userTransaction.begin();
+            entityManager.remove(
+                    entityManager.contains(employeeFound) ? employeeFound : entityManager.merge(employeeFound)
+            );
+            userTransaction.commit();
+        } catch (NotSupportedException | SystemException | HeuristicMixedException | HeuristicRollbackException | RollbackException e) {
+            e.printStackTrace();
+        }
     }
 
     @SuppressWarnings("unchecked")

@@ -4,7 +4,6 @@ import com.ifi.constants.Gender;
 import com.ifi.dto.EmployeeDTO;
 import com.ifi.dto.EngineerDTO;
 import com.ifi.dto.WorkerDTO;
-import com.ifi.entity.Employee;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,10 +13,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
@@ -35,11 +31,8 @@ public class ValidatorWithDTOTest {
     UUID expectedId = UUID.randomUUID();
     String expectedName = "valid_name";
     Gender expectedGender = Gender.MALE;
-    Date expectedDob = Date.from(LocalDate
-            .of(1992, 9, 17)
-            .atStartOfDay(ZoneId.systemDefault())
-            .toInstant());
-    Date expectedJoinedDate = Date.from(Instant.now());
+    LocalDate expectedDob = LocalDate.of(1992, 9, 17);
+    LocalDate expectedJoinedDate = LocalDate.now();
 
     @Test
     @DisplayName("Should validate Employee with Valid Data")
@@ -278,14 +271,8 @@ public class ValidatorWithDTOTest {
     @Test
     @DisplayName("Should not validate Joined date with the date before DoB")
     void should_not_validate_Joined_date_with_the_date_before_DoB() {
-        Date expectedDob = Date.from(LocalDate
-                .of(1992, 9, 17)
-                .atStartOfDay(ZoneId.systemDefault())
-                .toInstant());
-        Date expectedJoinedDate = Date.from(LocalDate
-                .of(1990, 9, 17)
-                .atStartOfDay(ZoneId.systemDefault())
-                .toInstant());
+        LocalDate expectedDob = LocalDate.of(1992, 9, 17);
+        LocalDate expectedJoinedDate = LocalDate.of(1990, 9, 17);
         EmployeeDTO employeeDTO = new EmployeeDTO(
                 expectedId,
                 expectedName,
@@ -301,14 +288,8 @@ public class ValidatorWithDTOTest {
     @DisplayName("Should not validate Joined date with the date before DoB")
     void should_not_validate_Joined_date_with_the_date_before_DoB_for_Worker() {
         BigDecimal expectedRating = BigDecimal.valueOf(0);
-        Date expectedDob = Date.from(LocalDate
-                .of(1992, 9, 17)
-                .atStartOfDay(ZoneId.systemDefault())
-                .toInstant());
-        Date expectedJoinedDate = Date.from(LocalDate
-                .of(1990, 9, 17)
-                .atStartOfDay(ZoneId.systemDefault())
-                .toInstant());
+        LocalDate expectedDob = LocalDate.of(1992, 9, 17);
+        LocalDate expectedJoinedDate = LocalDate.of(1990, 9, 17);
         WorkerDTO workerDTO = new WorkerDTO(
                 expectedId,
                 expectedName,
@@ -320,19 +301,14 @@ public class ValidatorWithDTOTest {
         Set<ConstraintViolation<WorkerDTO>> violations = validator.validate(workerDTO);
         assertNotEquals(0, violations.size());
     }
+
     @Test
     @DisplayName("Should not validate Joined date with the date before DoB")
     void should_not_validate_Joined_date_with_the_date_before_DoB_for_Engineer() {
         BigDecimal expectedMonthlyWage = BigDecimal.valueOf(0);
         BigDecimal expectedAllowance = BigDecimal.valueOf(0);
-        Date expectedDob = Date.from(LocalDate
-                .of(1992, 9, 17)
-                .atStartOfDay(ZoneId.systemDefault())
-                .toInstant());
-        Date expectedJoinedDate = Date.from(LocalDate
-                .of(1990, 9, 17)
-                .atStartOfDay(ZoneId.systemDefault())
-                .toInstant());
+        LocalDate expectedDob = LocalDate.of(1992, 9, 17);
+        LocalDate expectedJoinedDate = LocalDate.of(1990, 9, 17);
         EngineerDTO engineerDTO = new EngineerDTO(
                 expectedId,
                 expectedName,

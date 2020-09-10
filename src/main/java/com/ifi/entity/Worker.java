@@ -7,7 +7,7 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.sql.Date;
 
 @Entity(name = "worker")
 @Data
@@ -26,7 +26,7 @@ public class Worker extends Employee {
                   @NonNull Date dateOfBirth,
                   @NonNull Date joinedDate,
                   @NonNull BigDecimal hourlyRating) {
-        super(name, gender, dateOfBirth, joinedDate);
+        super(name, gender,dateOfBirth, joinedDate);
         this.hourlyRating = hourlyRating;
     }
 
