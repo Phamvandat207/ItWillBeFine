@@ -11,9 +11,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface JoinDate {
 
-    String message() default "Name field must not be before date of birth";
-
-//    Class<?>[] group() default{} ;
+    String message() default "Joined date must after date of birth";
 
     Class<? extends Payload>[] payload() default {};
 
