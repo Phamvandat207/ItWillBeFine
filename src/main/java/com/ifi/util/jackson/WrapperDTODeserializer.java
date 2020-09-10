@@ -59,6 +59,14 @@ public class WrapperDTODeserializer extends JsonDeserializer<WrapperDTO> {
 
     private String reconstructWorkerJson(JsonNode rootNode) {
         JsonNode workerNode = rootNode.get("worker");
-        return null;
+        String hourlyRating = "";
+        if (workerNode.hasNonNull("hourly_rating")) {
+            hourlyRating = workerNode.get("hourly_rating").asText();
+        }
+        ObjectNode objectNode = (ObjectNode) rootNode;
+        objectNode
+                .put("hourly_rating", hourlyRating)
+                .remove("worker");
+        return objectNode.toString();
     }
 }

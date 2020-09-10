@@ -1,5 +1,6 @@
 package com.ifi.rest;
 
+import com.ifi.dto.EmployeeDTO;
 import com.ifi.dto.WrapperDTO;
 
 import javax.ws.rs.Consumes;
@@ -14,9 +15,9 @@ public class WrapperAPI {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public WrapperDTO postDTO(WrapperDTO wrapperDTO) {
+    public EmployeeDTO postDTO(WrapperDTO wrapperDTO) {
         System.out.println(wrapperDTO);
         System.out.println();
-        return wrapperDTO;
+        return wrapperDTO.getEmployeeDTO();
     }
 }
