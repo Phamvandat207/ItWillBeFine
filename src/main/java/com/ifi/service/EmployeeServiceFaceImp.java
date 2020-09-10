@@ -7,6 +7,7 @@ import com.ifi.dto.EngineerDTO;
 import com.ifi.dto.WorkerDTO;
 import com.ifi.service.employee.EmployeeService;
 import com.ifi.service.engineer.EngineerService;
+import com.ifi.service.exception.DeleteEntityException;
 import com.ifi.service.worker.WorkerService;
 
 import javax.inject.Inject;
@@ -48,7 +49,7 @@ public class EmployeeServiceFaceImp implements EmployeeServiceFacade {
     }
 
     @Override
-    public void deleteEmployee(String employeeId) {
-
+    public void deleteEmployee(String employeeId) throws DeleteEntityException {
+        employeeService.deleteEmployee(employeeId);
     }
 }
