@@ -3,12 +3,14 @@ package com.ifi.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.ifi.constants.Gender;
+import com.ifi.util.jackson.EmployeeDTOSerializer;
 import com.ifi.util.validator.joindate.JoinDate;
 import lombok.Builder;
 import lombok.Data;
@@ -24,7 +26,7 @@ import java.util.UUID;
 
 @Data
 @JoinDate
-@JsonSerialize
+@JsonSerialize(using = EmployeeDTOSerializer.class)
 @JsonDeserialize
 public class EmployeeDTO {
 
@@ -53,7 +55,7 @@ public class EmployeeDTO {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     final LocalDate joinedDate;
 
-    @JsonProperty("employee_type")
+    @JsonIgnore
     String type;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
