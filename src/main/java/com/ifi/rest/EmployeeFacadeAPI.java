@@ -4,9 +4,10 @@ import com.ifi.data.exception.EmployeeDataException;
 import com.ifi.data.exception.EmployeeSaveException;
 import com.ifi.dto.WrapperDTO;
 import com.ifi.service.EmployeeServiceFacade;
+import com.ifi.service.exception.DeleteEntityException;
+import com.ifi.util.message.ResponseMessage;
 
 import javax.inject.Inject;
-import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -50,5 +51,17 @@ public class EmployeeFacadeAPI {
         } catch (EmployeeDataException e) {
             return Response.status(400, "id null error").build();
         }
+    }
+
+    @DELETE
+    @Path("/{employeeId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteEmployee(@PathParam("employeeId") String id) {
+        try {
+            employeeServiceFacade.deleteEmployee(id);
+        } catch (DeleteEntityException e) {
+            return Response.status(400, "error delete employee").build();
+        }
+        return Response.ok(new ResponseMessage(200, "employee deleted")).build();
     }
 }

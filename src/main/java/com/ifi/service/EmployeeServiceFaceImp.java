@@ -48,7 +48,7 @@ public class EmployeeServiceFaceImp implements EmployeeServiceFacade {
     }
 
     @Override
-    public void deleteEmployee(EmployeeDTO employeeDTO) {
+    public void deleteEmployee(String employeeId) {
 
     }
 }

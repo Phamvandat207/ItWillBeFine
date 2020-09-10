@@ -14,5 +14,5 @@ public interface EmployeeServiceFacade {
 
     EmployeeDTO updateEmployee(EmployeeDTO employeeDTO) throws EmployeeSaveException, EmployeeDataException;
 
-    void deleteEmployee(EmployeeDTO employeeDTO);
+    void deleteEmployee(String employeeId);
 }
