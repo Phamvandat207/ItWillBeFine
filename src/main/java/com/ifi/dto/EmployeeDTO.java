@@ -13,8 +13,12 @@ import com.ifi.util.validator.joindate.JoinDate;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.validation.executable.ExecutableType;
+import javax.validation.executable.ValidateOnExecution;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -54,8 +58,9 @@ public class EmployeeDTO {
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     @Builder
+    @ValidateOnExecution(type = ExecutableType.CONSTRUCTORS)
     public EmployeeDTO(@JsonProperty("employee_id") UUID id,
-                       @JsonProperty("employee_name") String name,
+                       @Min(2) @JsonProperty("employee_name") String name,
                        @JsonProperty("gender") Gender gender,
                        @JsonProperty("date_of_birth") LocalDate dateOfBirth,
                        @JsonProperty("joined_date") LocalDate joinedDate) {

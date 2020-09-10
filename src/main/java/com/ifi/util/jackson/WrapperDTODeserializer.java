@@ -11,14 +11,23 @@ import com.ifi.dto.EmployeeDTO;
 import com.ifi.dto.EngineerDTO;
 import com.ifi.dto.WorkerDTO;
 import com.ifi.dto.WrapperDTO;
+import com.ifi.util.jackson.exception.ValidateException;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import java.io.IOException;
+import java.util.Set;
 
 public class WrapperDTODeserializer extends JsonDeserializer<WrapperDTO> {
+    Validator validator;
+
+    public WrapperDTODeserializer() {
+        validator = Validation.buildDefaultValidatorFactory().getValidator();
+    }
 
     @Override
     public WrapperDTO deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
-        WrapperDTO wrapperDTO = new WrapperDTO();
         EmployeeDTO employeeDTO;
         ObjectMapper objectMapper = (ObjectMapper) jsonParser.getCodec();
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
@@ -33,8 +42,11 @@ public class WrapperDTODeserializer extends JsonDeserializer<WrapperDTO> {
             jsonValue = node.toString();
             employeeDTO = objectMapper.readValue(jsonValue, EmployeeDTO.class);
         }
-        wrapperDTO.setEmployeeDTO(employeeDTO);
-        return wrapperDTO;
+        Set<ConstraintViolation<EmployeeDTO>> violations = validator.validate(employeeDTO);
+        if (!violations.isEmpty()) {
+            throw new ValidateException(jsonParser, violations.iterator().next().getMessage());
+        }
+        return new WrapperDTO(employeeDTO);
     }
 
     private String reconstructEngineerJson(JsonNode rootNode) {

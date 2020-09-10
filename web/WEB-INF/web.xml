@@ -9,7 +9,7 @@
             com.ifi.rest.EmployeeAPI,
             com.ifi.rest.EngineerAPI,
             com.ifi.rest.WorkerAPI,
-            com.ifi.rest.WrapperAPI
+            com.ifi.rest.EmployeeFacadeAPI
         </param-value>
     </context-param>
     <welcome-file-list>
