@@ -16,8 +16,6 @@ import java.io.IOException;
 
 public class WrapperDTODeserializer extends JsonDeserializer<WrapperDTO> {
 
-    static final String ENGINEER = "ENGINEER";
-
     @Override
     public WrapperDTO deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
         WrapperDTO wrapperDTO = new WrapperDTO();
