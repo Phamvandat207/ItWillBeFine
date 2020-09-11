@@ -62,6 +62,15 @@
                 </configuration>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>3.2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
     <dependencies>
@@ -213,6 +222,21 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.sonarsource.scanner.maven/sonar-maven-plugin -->
+
+        <dependency>
+            <groupId>org.sonarsource.scanner.maven</groupId>
+            <artifactId>sonar-maven-plugin</artifactId>
+            <version>3.2 </version>
+        </dependency>
+
+
     </dependencies>
 
+    <properties>
+        <sonar.host.url>http://localhost:9000</sonar.host.url>
+        <sonar.login>be2fe3y27f07db354983dfxysdsa5256</sonar.login>
+        <sonar.language>java</sonar.language>
+        <sonar.scm.provider>git</sonar.scm.provider>
+    </properties>
 </project>
