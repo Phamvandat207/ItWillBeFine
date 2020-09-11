@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("/employees")
 public class EmployeeFacadeAPI {
@@ -20,10 +21,8 @@ public class EmployeeFacadeAPI {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findAll() {
-        return Response.ok(
-                employeeServiceFacade.findAll()
-        ).build();
+    public List<EmployeeDTO> findAll() {
+        return employeeServiceFacade.findAll();
     }
 
     @POST
