@@ -1,22 +1,16 @@
 package com.ifi.dto;
 
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.ifi.constants.Gender;
-import com.ifi.util.jackson.EmployeeDTOSerializer;
 import com.ifi.util.validator.joindate.JoinDate;
 import lombok.Builder;
 import lombok.Data;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.validation.executable.ExecutableType;
@@ -26,8 +20,15 @@ import java.util.UUID;
 
 @Data
 @JoinDate
-@JsonSerialize(using = EmployeeDTOSerializer.class)
-@JsonDeserialize
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.WRAPPER_OBJECT
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = WorkerDTO.class, name = "worker"),
+        @JsonSubTypes.Type(value = EngineerDTO.class, name = "engineer"),
+        @JsonSubTypes.Type(value = EmployeeDTO.class, name = "employee")
+})
 public class EmployeeDTO {
 
     @JsonProperty("employee_id")
@@ -62,7 +63,7 @@ public class EmployeeDTO {
     @Builder
     @ValidateOnExecution(type = ExecutableType.CONSTRUCTORS)
     public EmployeeDTO(@JsonProperty("employee_id") UUID id,
-                       @Min(2) @JsonProperty("employee_name") String name,
+                       @JsonProperty("employee_name") String name,
                        @JsonProperty("gender") Gender gender,
                        @JsonProperty("date_of_birth") LocalDate dateOfBirth,
                        @JsonProperty("joined_date") LocalDate joinedDate) {

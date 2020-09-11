@@ -1,8 +1,6 @@
 package com.ifi.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.ifi.constants.Gender;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -16,8 +14,6 @@ import java.util.UUID;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
-@JsonDeserialize
-@JsonSerialize
 public class WorkerDTO extends EmployeeDTO {
 
     @DecimalMin(value = "0", message = "hourly rating must be positive")
